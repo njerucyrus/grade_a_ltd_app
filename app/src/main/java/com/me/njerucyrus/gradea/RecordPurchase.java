@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -34,11 +35,25 @@ public class RecordPurchase extends AppCompatActivity {
     EditText txtPayeeName, txtPayeePhoneNumber, txtDescription, txtReceiptNo,
             txtVatNo, txtKraPinNo, txtProductNames, txtPrice;
 
+    TextView mPayeeName, mPhoneNumber, mDescription, mAuthorisedBy,
+            mReceiptNo, mProducts, mPrice;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_record_purchase);
         ActionBar ab = getSupportActionBar();
+
+
+        //print preview fields
+//        mPayeeName = (TextView) findViewById(R.id.mPayeeName);
+//        mPhoneNumber = (TextView) findViewById(R.id.mPhoneNumber);
+//        mDescription = (TextView) findViewById(R.id.mDescription);
+//        mAuthorisedBy = (TextView) findViewById(R.id.mAuthorisedBy);
+//        mReceiptNo = (TextView) findViewById(R.id.mReceiptNo);
+//        mProducts = (TextView) findViewById(R.id.mProducts);
+//        mPrice = (TextView) findViewById(R.id.mPrice);
+//        //end of print preview fields
 
         requestQueue = VolleyRequestSingleton.getInstance(this.getApplicationContext()).getRequestQueue();
 
@@ -55,7 +70,7 @@ public class RecordPurchase extends AppCompatActivity {
                 txtProductNames = (EditText) findViewById(R.id.txtProductNames);
                 txtPrice = (EditText) findViewById(R.id.txtPrice);
 
-                String payeeName, payeePhoneNumber, description, receiptNo, vatNo, kraPinNo, productNames, price;
+                final String payeeName, payeePhoneNumber, description, receiptNo, vatNo, kraPinNo, productNames, price;
 
                 payeeName = txtPayeeName.getText().toString();
                 payeePhoneNumber = txtPayeePhoneNumber.getText().toString();
@@ -72,13 +87,15 @@ public class RecordPurchase extends AppCompatActivity {
                     //do post
                     try {
                         Toast.makeText(getApplicationContext(), "Submitting...", Toast.LENGTH_LONG).show();
-                        SharedPreferences sharedPref = RecordPurchase.this.getPreferences(Context.MODE_PRIVATE);
+                        SharedPreferences settings = getSharedPreferences("AUTH_DATA",
+                                Context.MODE_PRIVATE);
+                        final String username = settings.getString("username", "Default User");
 
                         JSONObject jsonObject = new JSONObject();
                         jsonObject.put("payee_name", payeeName);
                         jsonObject.put("phone_number", payeePhoneNumber);
                         jsonObject.put("payment_description", description);
-                        jsonObject.put("authorised_by", sharedPref.getString("username", "Default User"));
+                        jsonObject.put("authorised_by", username);
                         jsonObject.put("receipt_no", receiptNo);
                         jsonObject.put("vat_no", vatNo);
                         jsonObject.put("kra_pin_no", kraPinNo);
@@ -97,6 +114,16 @@ public class RecordPurchase extends AppCompatActivity {
 
 
                                                 Toast.makeText(getApplicationContext(), response.getString("message"), Toast.LENGTH_LONG).show();
+
+//
+//                                                mPayeeName.setText(payeeName);
+//                                                mPhoneNumber.setText(payeePhoneNumber);
+//                                                mDescription.setText(description);
+//                                                mAuthorisedBy.setText(username);
+//                                                mReceiptNo.setText(receiptNo);
+//                                                mProducts.setText(productNames);
+//                                                mPrice.setText(price);
+
                                                 startActivity(new Intent(getApplicationContext(), PrintPreviewActivity.class));
 
 
@@ -151,5 +178,7 @@ public class RecordPurchase extends AppCompatActivity {
         // Enable the Up button
         ab.setDisplayHomeAsUpEnabled(true);
     }
+
+
 
 }

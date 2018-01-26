@@ -6,16 +6,19 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class PrintPreviewActivity extends AppCompatActivity {
 
-    private Button btnPrint;
+     Button btnPrint;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_print_preview);
         ActionBar ab = getSupportActionBar();
+        ab.setDisplayHomeAsUpEnabled(true);
 
         btnPrint = (Button)findViewById(R.id.btnPrint);
         btnPrint.setOnClickListener(new View.OnClickListener() {
@@ -25,6 +28,6 @@ public class PrintPreviewActivity extends AppCompatActivity {
             }
         });
         // Enable the Up button
-        ab.setDisplayHomeAsUpEnabled(true);
+
     }
 }

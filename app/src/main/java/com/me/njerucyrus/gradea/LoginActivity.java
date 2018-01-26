@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -38,6 +39,10 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        ActionBar ab = getSupportActionBar();
+        ab.setDisplayHomeAsUpEnabled(true);
+
         btnAuthLogin = (Button)findViewById(R.id.btnAuthLogin);
         txtDontHaveAcc = (TextView)findViewById(R.id.txtDontHaveAcc);
         txtForgotPassword = (TextView)findViewById(R.id.txtForgotPassword);
@@ -93,8 +98,10 @@ public class LoginActivity extends AppCompatActivity {
                                     if(response.getInt("status_code") == 201){
                                         Toast.makeText(getApplicationContext(), response.getString("message"), Toast.LENGTH_LONG).show();
 
-                                        SharedPreferences sharedPref = LoginActivity.this.getPreferences(Context.MODE_PRIVATE);
-                                        SharedPreferences.Editor editor = sharedPref.edit();
+                                        SharedPreferences settings = getSharedPreferences("AUTH_DATA",
+                                                Context.MODE_PRIVATE);
+
+
                                         JSONObject data = response.getJSONObject("data");
 
                                         String username;
@@ -103,9 +110,11 @@ public class LoginActivity extends AppCompatActivity {
                                         }else{
                                             username = data.getString("email");
                                         }
-
+                                        SharedPreferences.Editor editor = settings.edit();
                                         editor.putString("username", username);
                                         editor.commit();
+
+
                                         startActivity(new Intent(getApplicationContext(), MainActivity.class));
                                     }else if(response.getInt("status_code") == 500){
                                         Toast.makeText(getApplicationContext(), response.getString("message"), Toast.LENGTH_LONG).show();

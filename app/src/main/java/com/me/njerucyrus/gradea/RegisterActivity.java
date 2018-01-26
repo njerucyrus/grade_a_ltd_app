@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 
 import android.content.SharedPreferences;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -45,6 +46,9 @@ public class RegisterActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+
+        ActionBar ab = getSupportActionBar();
+        ab.setDisplayHomeAsUpEnabled(true);
 
 
         btnAuthRegister = (Button)findViewById(R.id.btnAuthRegister);
@@ -102,8 +106,11 @@ public class RegisterActivity extends AppCompatActivity {
                                             try {
                                                 if (response.getInt("status_code") == 201) {
 
-                                                    SharedPreferences sharedPref = RegisterActivity.this.getPreferences(Context.MODE_PRIVATE);
-                                                    SharedPreferences.Editor editor = sharedPref.edit();
+                                                    SharedPreferences settings = getSharedPreferences("AUTH_DATA",
+                                                            Context.MODE_PRIVATE);
+
+                                                    SharedPreferences.Editor editor = settings.edit();
+
                                                     String username;
 
                                                     if (!email.equals("")) {
@@ -111,8 +118,11 @@ public class RegisterActivity extends AppCompatActivity {
                                                     } else {
                                                         username = phoneNumber;
                                                     }
+
                                                     editor.putString("username", username);
+                                                    editor.putString("user", fullName);
                                                     editor.commit();
+
 
                                                     Toast.makeText(getApplicationContext(), response.getString("message"), Toast.LENGTH_LONG).show();
                                                     startActivity(new Intent(getApplicationContext(), MainActivity.class));

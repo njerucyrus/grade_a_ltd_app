@@ -20,9 +20,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
+            android:textStyle="bold"
+            android:textColor="@color/colorBlack"
             android:text="Print Preview"
             />
         <TextView
+            android:id="@+id/mPayeeName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Payee Name: Daniel M "
@@ -30,30 +33,35 @@
             />
 
         <TextView
+            android:id="@+id/mPhoneNumber"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Phone Number: O703191981 "
             android:layout_margin="15dp"
             />
         <TextView
+            android:id="@+id/mDescription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Description: Bought some products. "
             android:layout_margin="15dp"
             />
         <TextView
+            android:id="@+id/mAuthorisedBy"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Authorized by: John Doe"
             android:layout_margin="15dp"
             />
         <TextView
+            android:id="@+id/mReceiptNo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Receipt No: K38494# "
             android:layout_margin="15dp"
             />
         <TextView
+            android:id="@+id/mProducts"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Products: 3 Bugs of Cement "
@@ -61,6 +69,7 @@
             />
 
         <TextView
+            android:id="@+id/mPrice"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Price: Ksh 2500"

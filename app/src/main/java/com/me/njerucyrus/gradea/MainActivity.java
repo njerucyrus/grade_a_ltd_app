@@ -1,6 +1,8 @@
 package com.me.njerucyrus.gradea;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -175,6 +177,12 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_gallery) {
             startActivity(new Intent(getApplicationContext(), MainActivity.class));
         } else if (id == R.id.nav_slideshow) {
+            SharedPreferences settings = getSharedPreferences("AUTH_DATA",
+                    Context.MODE_PRIVATE);
+
+            SharedPreferences.Editor editor = settings.edit();
+            editor.putString("username", "");
+            editor.commit();
             startActivity(new Intent(getApplicationContext(), WelcomeActivity.class));
 
         }

@@ -1,6 +1,7 @@
 package com.me.njerucyrus.gradea;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -11,6 +12,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.List;
+
+import static android.support.v4.content.ContextCompat.startActivity;
 
 /**
  * Created by njerucyrus on 1/25/18.
@@ -35,13 +38,13 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     public void onBindViewHolder(final ViewHolder holder, int position) {
         final RecyclerItem itemList = listItems.get(position);
         String title = "RECEIPT #" + itemList.getReceiptNo();
-        String description = "Payee: " + itemList.getPayeeName() + " Products: " + itemList.getProducts() + "\n" +
-                " Total Cost " + itemList.getPrice() + " Date " + itemList.getDate();
+        String description = "Payee: " + itemList.getPayeeName() + "\nProducts: " + itemList.getProducts() + "\n" +
+                "Total Cost Ksh " + itemList.getPrice()+".00" + "\n\nDate " + itemList.getDate();
         holder.txtTitle.setText(title);
         holder.txtItemDescription.setText(description);
         holder.txtOptionDigit.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(final View view) {
                 PopupMenu popupMenu = new PopupMenu(mContext, holder.txtOptionDigit);
                 popupMenu.inflate(R.menu.option_menu);
                 popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {

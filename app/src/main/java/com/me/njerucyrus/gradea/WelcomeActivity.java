@@ -1,6 +1,8 @@
 package com.me.njerucyrus.gradea;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -29,5 +31,25 @@ public class WelcomeActivity extends AppCompatActivity {
                 startActivity(new Intent(getApplicationContext(), RegisterActivity.class));
             }
         });
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if(isLoggedIn()){
+            startActivity(new Intent(this, MainActivity.class));
+        }
+
+    }
+
+    public boolean isLoggedIn(){
+        SharedPreferences settings = getSharedPreferences("AUTH_DATA",
+                Context.MODE_PRIVATE);
+        String username = settings.getString("username", "");
+        if(!username.equals("")){
+            return true;
+        }else{
+            return false;
+        }
     }
 }
