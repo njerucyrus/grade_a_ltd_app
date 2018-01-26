@@ -38,6 +38,8 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/txtOptionDigit"
                 android:text="@string/vertical_ellipsis"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"
                 android:textColor="@color/colorBlack"
                 android:textAppearance="?android:textAppearanceLarge"
                 android:gravity="right"
