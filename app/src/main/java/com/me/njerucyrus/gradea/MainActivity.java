@@ -1,6 +1,5 @@
 package com.me.njerucyrus.gradea;
 
-import android.app.VoiceInteractor;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -8,14 +7,24 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkError;
+import com.android.volley.NoConnectionError;
+import com.android.volley.ParseError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.ServerError;
+import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 
@@ -23,9 +32,16 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+    Boolean debug = true;
     RequestQueue requestQueue;
+    RecyclerView recyclerView;
+    MyAdapter adapter;
+    List<RecyclerItem> listItems =new ArrayList<>();;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,35 +59,76 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+
         requestQueue = VolleyRequestSingleton.getInstance(this.getApplicationContext()).getRequestQueue();
-        final String URL = "https://b75b369e.ngrok.io/api_backend/api/purchases.php?filter=non";
+
+        final String URL = "http://grade.hudutech.com/api_backend/api/purchases.php?filter=non";
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, URL, null,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        try{
-                            if(response.getInt("status_code")== 200){
-                                JSONArray data = response.getJSONArray("data");
-                                for (int i = 0; i<data.length(); i++){
-                                    JSONObject content = data.getJSONObject(i);
-                                    Toast.makeText(getApplicationContext(), "Name is "+content.getString("payee_name"), Toast.LENGTH_LONG).show();
 
+                        try {
+                            if (response.getInt("status_code") == 200) {
+                                JSONArray data = response.optJSONArray("data");
+                                for (int i = 0; i < data.length(); i++) {
+                                    JSONObject object = data.optJSONObject(i);
+
+                                    RecyclerItem item = new RecyclerItem();
+                                    item.setReceiptNo(object.getString("receipt_no"));
+                                    item.setVatNo(object.getString("vat_no"));
+                                    item.setKraPin(object.getString("kra_pin_no"));
+                                    item.setPayeeName(object.getString("payee_name"));
+                                    item.setProducts(object.getString("product_names"));
+                                    item.setDescription(object.getString("payment_description"));
+                                    item.setPrice(object.getString("amount_paid"));
+                                    item.setDate(object.getString("date_paid"));
+                                    listItems.add(item);
                                 }
+                                adapter = new MyAdapter(listItems, getApplicationContext());
+                                recyclerView.setAdapter(adapter);
 
+
+                            } else {
+                                Toast.makeText(getApplicationContext(), "No data found", Toast.LENGTH_LONG).show();
                             }
-                        }catch (JSONException e){
+                        } catch (JSONException e) {
                             e.printStackTrace();
                         }
+
+
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
 
+                        String message = null;
+                        if (error instanceof NetworkError) {
+                            message = "Cannot connect to Internet...Please check your connection!";
+                        } else if (error instanceof ServerError) {
+                            message = "The server could not be found. Please try again after some time!!";
+                        } else if (error instanceof AuthFailureError) {
+                            message = "Cannot connect to Internet...Please check your connection!";
+                        } else if (error instanceof ParseError) {
+                            message = "Parsing error! Please try again after some time!!";
+                        } else if (error instanceof NoConnectionError) {
+                            message = "Cannot connect to Internet...Please check your connection!";
+                        } else if (error instanceof TimeoutError) {
+                            message = "Connection TimeOut! Please check your internet connection.";
+                        }
+                        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
+
+
                     }
                 }
         );
         requestQueue.add(jsonObjectRequest);
+
 
     }
 
@@ -126,4 +183,6 @@ public class MainActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+
 }

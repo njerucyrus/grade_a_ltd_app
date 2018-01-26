@@ -12,9 +12,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkError;
+import com.android.volley.NoConnectionError;
+import com.android.volley.ParseError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.ServerError;
+import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
@@ -79,7 +85,7 @@ public class RecordPurchase extends AppCompatActivity {
                         jsonObject.put("product_names", productNames);
                         jsonObject.put("amount_paid", Float.parseFloat(price));
 
-                        final String URL = "https://b75b369e.ngrok.io/api_backend/api/purchases.php";
+                        final String URL = "http://grade.hudutech.com/api_backend/api/purchases.php";
 
                         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, URL, jsonObject,
                                 new Response.Listener<JSONObject>() {
@@ -110,7 +116,21 @@ public class RecordPurchase extends AppCompatActivity {
                                     @Override
                                     public void onErrorResponse(VolleyError error) {
                                         VolleyLog.e("Error: ", error.getMessage());
-                                        Toast.makeText(getApplicationContext(), "VolleyError " + error.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+                                        String message = null;
+                                        if (error instanceof NetworkError) {
+                                            message = "Cannot connect to Internet...Please check your connection!";
+                                        } else if (error instanceof ServerError) {
+                                            message = "The server could not be found. Please try again after some time!!";
+                                        } else if (error instanceof AuthFailureError) {
+                                            message = "Cannot connect to Internet...Please check your connection!";
+                                        } else if (error instanceof ParseError) {
+                                            message = "Parsing error! Please try again after some time!!";
+                                        } else if (error instanceof NoConnectionError) {
+                                            message = "Cannot connect to Internet...Please check your connection!";
+                                        } else if (error instanceof TimeoutError) {
+                                            message = "Connection TimeOut! Please check your internet connection.";
+                                        }
+                                        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
                                     }
                                 });
 

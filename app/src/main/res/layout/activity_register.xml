@@ -22,6 +22,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
                 android:gravity="center"
+                android:textColor="@color/colorBlack"
                 android:text="Welcome To Grade A Ltd App"
                 android:textSize="24dp" />
 
@@ -30,6 +31,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
                 android:gravity="center"
+                android:textColor="@color/colorBlack"
                 android:text="Sign Up Page"
                 android:textSize="24dp" />
 
@@ -51,6 +53,7 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:layout_marginTop="5dp"
+
                     android:hint="Enter Your FullName"
                     android:inputType="textPersonName"
                     android:textSize="16dp"
@@ -138,7 +141,7 @@
                 android:layout_marginTop="10dp"
                 android:background="@color/colorPrimaryDark"
                 android:text="Sign UP"
-                android:textColor="#fff" />
+                android:textColor="@color/colorWhite" />
 
             <Space
                 android:layout_width="match_parent"
@@ -151,7 +154,7 @@
                 android:layout_marginTop="5dp"
                 android:gravity="center"
                 android:text="Already a have an account?"
-                android:textColor="@color/colorPrimary"
+                android:textColor="@color/colorBlue"
                 android:layout_marginBottom="25dp"
                 android:textSize="16dp" />
 

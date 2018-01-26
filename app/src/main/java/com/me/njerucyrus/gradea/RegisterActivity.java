@@ -14,9 +14,15 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkError;
+import com.android.volley.NoConnectionError;
+import com.android.volley.ParseError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.ServerError;
+import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
@@ -74,8 +80,10 @@ public class RegisterActivity extends AppCompatActivity {
                 email = txtEmail.getText().toString();
                 password = txtPassword.getText().toString();
                 confirmPassword = txtConfirmPassword.getText().toString();
-
-                    if(password.equals(confirmPassword)) {
+                if(fullName.isEmpty() && phoneNumber.isEmpty() && password.isEmpty() && confirmPassword.isEmpty()){
+                    Toast.makeText(getApplicationContext(), "Please fill in all the required fields", Toast.LENGTH_LONG).show();
+                }else {
+                    if (password.equals(confirmPassword)) {
 
                         try {
                             JSONObject jsonObject = new JSONObject();
@@ -83,26 +91,24 @@ public class RegisterActivity extends AppCompatActivity {
                             jsonObject.put("email", email);
                             jsonObject.put("phone_number", phoneNumber);
                             jsonObject.put("password", password);
-                            final String URL = "https://b75b369e.ngrok.io/api_backend/api/users.php?action=create_account";
-                            String data = fullName+" "+email+ " "+phoneNumber+ " "+ password;
-                            Toast.makeText(getApplicationContext(), "Submitting "+data , Toast.LENGTH_LONG).show();
+                            final String URL = "http://grade.hudutech.com/api_backend/api/users.php?action=create_account";
+
+                            Toast.makeText(getApplicationContext(), "Creating account ... ", Toast.LENGTH_LONG).show();
 
                             JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, URL, jsonObject,
                                     new Response.Listener<JSONObject>() {
                                         @Override
                                         public void onResponse(JSONObject response) {
                                             try {
-                                                if (response.getInt("status_code") == 201){
-
-
+                                                if (response.getInt("status_code") == 201) {
 
                                                     SharedPreferences sharedPref = RegisterActivity.this.getPreferences(Context.MODE_PRIVATE);
                                                     SharedPreferences.Editor editor = sharedPref.edit();
-                                                    String username = "";
+                                                    String username;
 
-                                                    if(!email.equals("")){
+                                                    if (!email.equals("")) {
                                                         username = email;
-                                                    }else{
+                                                    } else {
                                                         username = phoneNumber;
                                                     }
                                                     editor.putString("username", username);
@@ -111,13 +117,12 @@ public class RegisterActivity extends AppCompatActivity {
                                                     Toast.makeText(getApplicationContext(), response.getString("message"), Toast.LENGTH_LONG).show();
                                                     startActivity(new Intent(getApplicationContext(), MainActivity.class));
 
-
                                                 }
-                                                if (response.getInt("status_code") == 500){
-                                                    Toast.makeText(getApplicationContext(), "Error "+response.getString("message"), Toast.LENGTH_LONG).show();
+                                                if (response.getInt("status_code") == 500) {
+                                                    Toast.makeText(getApplicationContext(), "Error " + response.getString("message"), Toast.LENGTH_LONG).show();
                                                 }
 
-                                            }catch (JSONException e){
+                                            } catch (JSONException e) {
                                                 e.printStackTrace();
                                             }
                                         }
@@ -126,7 +131,21 @@ public class RegisterActivity extends AppCompatActivity {
                                 public void onErrorResponse(VolleyError error) {
 
                                     VolleyLog.e("Error: ", error.getMessage());
-                                    Toast.makeText(getApplicationContext(), "VolleyError "+error.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+                                    String message = null;
+                                    if (error instanceof NetworkError) {
+                                        message = "Cannot connect to Internet...Please check your connection!";
+                                    } else if (error instanceof ServerError) {
+                                        message = "The server could not be found. Please try again after some time!!";
+                                    } else if (error instanceof AuthFailureError) {
+                                        message = "Cannot connect to Internet...Please check your connection!";
+                                    } else if (error instanceof ParseError) {
+                                        message = "Parsing error! Please try again after some time!!";
+                                    } else if (error instanceof NoConnectionError) {
+                                        message = "Cannot connect to Internet...Please check your connection!";
+                                    } else if (error instanceof TimeoutError) {
+                                        message = "Connection TimeOut! Please check your internet connection.";
+                                    }
+                                    Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
 
 
                                 }
@@ -136,15 +155,16 @@ public class RegisterActivity extends AppCompatActivity {
 
                         } catch (JSONException e) {
                             e.printStackTrace();
-                            Toast.makeText(getApplicationContext(), "Error "+e.getMessage(), Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(), "Error " + e.getMessage(), Toast.LENGTH_LONG).show();
 
 
                         }
-                    }else{
+                    } else {
                         Toast.makeText(getApplicationContext(), "Password Do not match", Toast.LENGTH_LONG).show();
 
 
                     }
+                }
 
 
             }
