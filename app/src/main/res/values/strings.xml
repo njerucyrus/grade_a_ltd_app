@@ -1,5 +1,12 @@
 <resources>
-    <string name="app_name">Grade A App</string>
+    <string name="app_name">GradeA App</string>
+    <string name="login_name">Login</string>
+    <string name="welcome_name">Welcome</string>
+    <string name="register_name">SignUp</string>
+    <string name="print_preview_name">Print Preview</string>
+    <string name="transactions_name">Records List</string>
+    <string name="record_purchase_name">Record A New Entry</string>
+
     <string name="vertical_ellipsis">&#8942;</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>

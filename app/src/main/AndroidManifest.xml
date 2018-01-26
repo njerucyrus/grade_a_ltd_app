@@ -18,13 +18,16 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".MainActivity"
-            android:label="@string/app_name"
+            android:label="@string/transactions_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".RecordPurchase">
+        <activity android:name=".RecordPurchase"
+            android:label="@string/record_purchase_name"
+            >
+
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.me.njerucyrus.gradea.MainActivity" />
@@ -36,17 +39,23 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".LoginActivity">
+        <activity android:name=".LoginActivity"
+            android:label="@string/login_name"
+            >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.me.njerucyrus.gradea.WelcomeActivity" />
         </activity>
-        <activity android:name=".RegisterActivity">
+        <activity android:name=".RegisterActivity"
+            android:label="@string/register_name"
+            >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.me.njerucyrus.gradea.WelcomeActivity" />
         </activity>
-        <activity android:name=".PrintPreviewActivity">
+        <activity android:name=".PrintPreviewActivity"
+            android:label="@string/print_preview_name"
+            >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.me.njerucyrus.gradea.MainActivity" />
