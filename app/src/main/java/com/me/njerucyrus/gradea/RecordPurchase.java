@@ -85,9 +85,7 @@ public class RecordPurchase extends AppCompatActivity {
                 productNames = txtProductNames.getText().toString();
                 price = txtPrice.getText().toString();
 
-                if (!payeeName.equals("") && !payeePhoneNumber.equals("") && !description.equals("")
-                        && !vatNo.equals("") && !kraPinNo.equals("") && !productNames.equals("") &&
-                        !price.equals("") && !receiptNo.equals("")) {
+                if (validate()) {
                     //do post
                     try {
 
@@ -184,7 +182,7 @@ public class RecordPurchase extends AppCompatActivity {
                     }
 
                 } else {
-                    Toast.makeText(getApplicationContext(), "All fields required", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Fix the errors above", Toast.LENGTH_LONG).show();
 
                 }
 
@@ -195,6 +193,67 @@ public class RecordPurchase extends AppCompatActivity {
         ab.setDisplayHomeAsUpEnabled(true);
     }
 
+    public boolean validate(){
+        boolean valid = true;
+        if(txtPayeeName.getText().toString().isEmpty()){
+            txtPayeeName.setError("This field is required");
+            valid = false;
+        }else{
+            txtPayeeName.setError(null);
+        }
+
+        if (txtPayeePhoneNumber.getText().toString().isEmpty()){
+            txtPayeePhoneNumber.setError("This field is required");
+            valid = false;
+        }else{
+            txtPayeePhoneNumber.setError(null);
+        }
+
+        if(txtDescription.getText().toString().isEmpty()){
+            txtDescription.setError("This field is required");
+            valid = false;
+        }else{
+            txtDescription.setError(null);
+        }
+
+        if (txtReceiptNo.getText().toString().isEmpty()){
+            txtReceiptNo.setError("This field is required");
+            valid = false;
+        }else{
+            txtReceiptNo.setError(null);
+        }
+
+        if (txtVatNo.getText().toString().isEmpty()){
+            txtVatNo.setError("This field is required");
+            valid = false;
+        }else{
+            txtVatNo.setError(null);
+        }
+
+        if (txtKraPinNo.getText().toString().isEmpty()){
+            txtKraPinNo.setError("This field is required");
+            valid = false;
+        }else{
+            txtKraPinNo.setError(null);
+        }
+
+        if (txtProductNames.getText().toString().isEmpty()){
+            txtProductNames.setError("This field is required");
+            valid = false;
+        }else{
+            txtProductNames.setError(null);
+        }
+
+        if (txtPrice.getText().toString().isEmpty()){
+            txtPrice.setError("This field is required");
+            valid = false;
+        }else{
+            txtPrice.setError(null);
+        }
+
+        return valid;
+
+    }
 
 
 }

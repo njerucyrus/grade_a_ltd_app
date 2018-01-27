@@ -76,122 +76,159 @@ public class RegisterActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View view) {
-                final String fullName, phoneNumber, email, password, confirmPassword;
 
-                txtFullname = (EditText)findViewById(R.id.txtFullname);
-                txtPhoneNumber = (EditText)findViewById(R.id.txtPhoneNumber);
-                txtEmail = (EditText)findViewById(R.id.txtEmail);
-                txtPassword = (EditText)findViewById(R.id.txtPassword);
-                txtConfirmPassword = (EditText)findViewById(R.id.txtConfirmPassword);
+                      doCreateAccount();
 
-                fullName = txtFullname.getText().toString();
-                phoneNumber = txtPhoneNumber.getText().toString();
-                email = txtEmail.getText().toString();
-                password = txtPassword.getText().toString();
-                confirmPassword = txtConfirmPassword.getText().toString();
-                if(fullName.isEmpty() && phoneNumber.isEmpty() && password.isEmpty() && confirmPassword.isEmpty()){
-                    Toast.makeText(getApplicationContext(), "Please fill in all the required fields", Toast.LENGTH_LONG).show();
-                }else {
-                    if (password.equals(confirmPassword)) {
+                }
+            }
+        );
 
-                        try {
-                            JSONObject jsonObject = new JSONObject();
-                            jsonObject.put("fullname", fullName);
-                            jsonObject.put("email", email);
-                            jsonObject.put("phone_number", phoneNumber);
-                            jsonObject.put("password", password);
-                            final String URL = "http://grade.hudutech.com/api_backend/api/users.php?action=create_account";
-                            progressDialog.show();
+    }
 
-                            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, URL, jsonObject,
-                                    new Response.Listener<JSONObject>() {
-                                        @Override
-                                        public void onResponse(JSONObject response) {
-                                            try {
-                                                if (response.getInt("status_code") == 201) {
+    public void doCreateAccount(){
+        final String fullName, phoneNumber, email, password, confirmPassword;
 
-                                                    SharedPreferences settings = getSharedPreferences("AUTH_DATA",
-                                                            Context.MODE_PRIVATE);
+        txtFullname = (EditText)findViewById(R.id.txtFullname);
+        txtPhoneNumber = (EditText)findViewById(R.id.txtPhoneNumber);
+        txtEmail = (EditText)findViewById(R.id.txtEmail);
+        txtPassword = (EditText)findViewById(R.id.txtPassword);
+        txtConfirmPassword = (EditText)findViewById(R.id.txtConfirmPassword);
 
-                                                    SharedPreferences.Editor editor = settings.edit();
+        fullName = txtFullname.getText().toString();
+        phoneNumber = txtPhoneNumber.getText().toString();
+        email = txtEmail.getText().toString();
+        password = txtPassword.getText().toString();
+        confirmPassword = txtConfirmPassword.getText().toString();
+        if (validate()) {
+            if (password.equals(confirmPassword)) {
 
-                                                    String username;
+                try {
+                    JSONObject jsonObject = new JSONObject();
+                    jsonObject.put("fullname", fullName);
+                    jsonObject.put("email", email);
+                    jsonObject.put("phone_number", phoneNumber);
+                    jsonObject.put("password", password);
+                    final String URL = "http://grade.hudutech.com/api_backend/api/users.php?action=create_account";
+                    progressDialog.show();
 
-                                                    if (!email.equals("")) {
-                                                        username = email;
-                                                    } else {
-                                                        username = phoneNumber;
-                                                    }
+                    JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, URL, jsonObject,
+                            new Response.Listener<JSONObject>() {
+                                @Override
+                                public void onResponse(JSONObject response) {
+                                    try {
+                                        if (response.getInt("status_code") == 201) {
 
-                                                    editor.putString("username", username);
-                                                    editor.putString("user", fullName);
-                                                    editor.commit();
+                                            SharedPreferences settings = getSharedPreferences("AUTH_DATA",
+                                                    Context.MODE_PRIVATE);
 
+                                            SharedPreferences.Editor editor = settings.edit();
 
-                                                    Toast.makeText(getApplicationContext(), response.getString("message"), Toast.LENGTH_LONG).show();
-                                                    startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                                            String username;
 
-                                                }
-                                                if (response.getInt("status_code") == 500) {
-                                                    Toast.makeText(getApplicationContext(), "Error " + response.getString("message"), Toast.LENGTH_LONG).show();
-                                                }
-
-                                            } catch (JSONException e) {
-                                                e.printStackTrace();
+                                            if (!email.equals("")) {
+                                                username = email;
+                                            } else {
+                                                username = phoneNumber;
                                             }
+
+                                            editor.putString("username", username);
+                                            editor.putString("user", fullName);
+                                            editor.commit();
+
+
+                                            Toast.makeText(getApplicationContext(), response.getString("message"), Toast.LENGTH_LONG).show();
+                                            startActivity(new Intent(getApplicationContext(), MainActivity.class));
+
                                         }
-                                    }, new Response.ErrorListener() {
-                                @Override
-                                public void onErrorResponse(VolleyError error) {
+                                        if (response.getInt("status_code") == 500) {
+                                            Toast.makeText(getApplicationContext(), "Error " + response.getString("message"), Toast.LENGTH_LONG).show();
+                                        }
 
-                                    VolleyLog.e("Error: ", error.getMessage());
-                                    String message = null;
-                                    if (error instanceof NetworkError) {
-                                        message = "Cannot connect to Internet...Please check your connection!";
-                                    } else if (error instanceof ServerError) {
-                                        message = "The server could not be found. Please try again after some time!!";
-                                    } else if (error instanceof AuthFailureError) {
-                                        message = "Cannot connect to Internet...Please check your connection!";
-                                    } else if (error instanceof ParseError) {
-                                        message = "Parsing error! Please try again after some time!!";
-                                    } else if (error instanceof NoConnectionError) {
-                                        message = "Cannot connect to Internet...Please check your connection!";
-                                    } else if (error instanceof TimeoutError) {
-                                        message = "Connection TimeOut! Please check your internet connection.";
-                                    }
-                                    Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
-
-
-                                }
-                            });
-
-                            requestQueue.add(jsonObjectRequest);
-                            requestQueue.addRequestFinishedListener(new RequestQueue.RequestFinishedListener<Object>() {
-                                @Override
-                                public void onRequestFinished(Request<Object> request) {
-                                    if(progressDialog.isShowing()){
-                                        progressDialog.dismiss();
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
                                     }
                                 }
-                            });
+                            }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
 
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                            Toast.makeText(getApplicationContext(), "Error " + e.getMessage(), Toast.LENGTH_LONG).show();
+                            VolleyLog.e("Error: ", error.getMessage());
+                            String message = null;
+                            if (error instanceof NetworkError) {
+                                message = "Cannot connect to Internet...Please check your connection!";
+                            } else if (error instanceof ServerError) {
+                                message = "The server could not be found. Please try again after some time!!";
+                            } else if (error instanceof AuthFailureError) {
+                                message = "Cannot connect to Internet...Please check your connection!";
+                            } else if (error instanceof ParseError) {
+                                message = "Parsing error! Please try again after some time!!";
+                            } else if (error instanceof NoConnectionError) {
+                                message = "Cannot connect to Internet...Please check your connection!";
+                            } else if (error instanceof TimeoutError) {
+                                message = "Connection TimeOut! Please check your internet connection.";
+                            }
+                            Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
 
 
                         }
-                    } else {
-                        Toast.makeText(getApplicationContext(), "Password Do not match", Toast.LENGTH_LONG).show();
+                    });
+
+                    requestQueue.add(jsonObjectRequest);
+                    requestQueue.addRequestFinishedListener(new RequestQueue.RequestFinishedListener<Object>() {
+                        @Override
+                        public void onRequestFinished(Request<Object> request) {
+                            if (progressDialog.isShowing()) {
+                                progressDialog.dismiss();
+                            }
+                        }
+                    });
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    Toast.makeText(getApplicationContext(), "Error " + e.getMessage(), Toast.LENGTH_LONG).show();
 
 
-                    }
                 }
+            } else {
+                Toast.makeText(getApplicationContext(), "Password Do not match", Toast.LENGTH_LONG).show();
 
 
             }
-        });
+        }else{
+            Toast.makeText(getApplicationContext(), "Fix the errors above", Toast.LENGTH_LONG).show();
+        }
 
+    }
 
+    public boolean validate(){
+        boolean valid = true;
+        if (txtFullname.getText().toString().isEmpty()){
+            txtFullname.setError("This field is required");
+            valid = false;
+        }else{
+            txtFullname.setError(null);
+        }
+
+        if (txtPhoneNumber.getText().toString().isEmpty()){
+            txtPhoneNumber.setError("This field is required");
+            valid = false;
+        }else{
+            txtPhoneNumber.setError(null);
+        }
+
+        if (txtPassword.getText().toString().isEmpty()){
+            txtPassword.setError("This field is required");
+            valid = false;
+        }else{
+            txtPassword.setError(null);
+        }
+
+        if (txtConfirmPassword.getText().toString().isEmpty()){
+            txtConfirmPassword.setError("This field is required");
+            valid = false;
+        }else{
+            txtConfirmPassword.setError(null);
+        }
+        return valid;
     }
 }

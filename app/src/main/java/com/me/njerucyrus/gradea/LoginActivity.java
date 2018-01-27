@@ -85,7 +85,7 @@ public class LoginActivity extends AppCompatActivity {
 
         authUsername = txtAuthUsername.getText().toString().trim();
         authPassword = txtAuthPassword.getText().toString().trim();
-        if (!authUsername.equals("") && !authPassword.equals("")) {
+        if (validate()) {
             try {
                 JSONObject jsonObject = new JSONObject();
                 jsonObject.put("username", authUsername);
@@ -170,7 +170,26 @@ public class LoginActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
         } else {
-            Toast.makeText(getApplicationContext(), "Both username and password are required", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "Please fix the errors above", Toast.LENGTH_LONG).show();
         }
+    }
+
+    public boolean validate(){
+        boolean valid = true;
+        if (txtAuthUsername.getText().toString().isEmpty()){
+            txtAuthUsername.setError("This field is required");
+            valid = false;
+        }else{
+            txtAuthUsername.setError(null);
+
+        }
+        if (txtAuthPassword.getText().toString().isEmpty()){
+            txtAuthPassword.setError("This field is required");
+            valid = false;
+        }else{
+            txtAuthPassword.setError(null);
+
+        }
+        return valid;
     }
 }
