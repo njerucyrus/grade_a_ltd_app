@@ -1,5 +1,6 @@
 package com.me.njerucyrus.gradea;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -29,10 +30,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class LoginActivity extends AppCompatActivity {
-     RequestQueue requestQueue;
-     Button btnAuthLogin;
-     TextView txtDontHaveAcc, txtForgotPassword;
-     EditText txtAuthUsername, txtAuthPassword;
+    RequestQueue requestQueue;
+    Button btnAuthLogin;
+    TextView txtDontHaveAcc, txtForgotPassword;
+    EditText txtAuthUsername, txtAuthPassword;
+    ProgressDialog progressDialog;
     final String URL = "http://grade.hudutech.com/api_backend/api/users.php?action=login";
 
     @Override
@@ -43,9 +45,11 @@ public class LoginActivity extends AppCompatActivity {
         ActionBar ab = getSupportActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
 
-        btnAuthLogin = (Button)findViewById(R.id.btnAuthLogin);
-        txtDontHaveAcc = (TextView)findViewById(R.id.txtDontHaveAcc);
-        txtForgotPassword = (TextView)findViewById(R.id.txtForgotPassword);
+        btnAuthLogin = (Button) findViewById(R.id.btnAuthLogin);
+        txtDontHaveAcc = (TextView) findViewById(R.id.txtDontHaveAcc);
+        txtForgotPassword = (TextView) findViewById(R.id.txtForgotPassword);
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setTitle("Submitting");
 
         requestQueue = VolleyRequestSingleton.getInstance(this.getApplicationContext()).getRequestQueue();
 
@@ -73,7 +77,7 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
-    public void doLogin(){
+    public void doLogin() {
         txtAuthUsername = (EditText) findViewById(R.id.txtAuthUsername);
         txtAuthPassword = (EditText) findViewById(R.id.txtAuthPassword);
 
@@ -81,21 +85,22 @@ public class LoginActivity extends AppCompatActivity {
 
         authUsername = txtAuthUsername.getText().toString().trim();
         authPassword = txtAuthPassword.getText().toString().trim();
-        if (!authUsername.equals("") && !authPassword.equals("")){
-            Toast.makeText(getApplicationContext(), "Authenticating", Toast.LENGTH_LONG).show();
-
-            try{
+        if (!authUsername.equals("") && !authPassword.equals("")) {
+            try {
                 JSONObject jsonObject = new JSONObject();
                 jsonObject.put("username", authUsername);
                 jsonObject.put("password", authPassword);
+                progressDialog.setMessage("Authenticating...");
+                progressDialog.show();
 
                 JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, URL, jsonObject,
                         new Response.Listener<JSONObject>() {
                             @Override
                             public void onResponse(JSONObject response) {
 
-                                try{
-                                    if(response.getInt("status_code") == 201){
+                                try {
+                                    if (response.getInt("status_code") == 201) {
+
                                         Toast.makeText(getApplicationContext(), response.getString("message"), Toast.LENGTH_LONG).show();
 
                                         SharedPreferences settings = getSharedPreferences("AUTH_DATA",
@@ -105,9 +110,9 @@ public class LoginActivity extends AppCompatActivity {
                                         JSONObject data = response.getJSONObject("data");
 
                                         String username;
-                                        if (data.getString("email").equals("")){
+                                        if (data.getString("email").equals("")) {
                                             username = data.getString("phone_number");
-                                        }else{
+                                        } else {
                                             username = data.getString("email");
                                         }
                                         SharedPreferences.Editor editor = settings.edit();
@@ -116,12 +121,14 @@ public class LoginActivity extends AppCompatActivity {
 
 
                                         startActivity(new Intent(getApplicationContext(), MainActivity.class));
-                                    }else if(response.getInt("status_code") == 500){
+                                    } else if (response.getInt("status_code") == 500) {
+
                                         Toast.makeText(getApplicationContext(), response.getString("message"), Toast.LENGTH_LONG).show();
 
                                     }
-                                }catch (JSONException e){
+                                } catch (JSONException e) {
                                     e.printStackTrace();
+
                                 }
 
                             }
@@ -129,6 +136,8 @@ public class LoginActivity extends AppCompatActivity {
                         new Response.ErrorListener() {
                             @Override
                             public void onErrorResponse(VolleyError error) {
+
+
                                 VolleyLog.e("Error: ", error.getMessage());
 
                                 String message = null;
@@ -149,10 +158,18 @@ public class LoginActivity extends AppCompatActivity {
                             }
                         });
                 requestQueue.add(jsonObjectRequest);
-            }catch (JSONException e){
+                requestQueue.addRequestFinishedListener(new RequestQueue.RequestFinishedListener<Object>() {
+                    @Override
+                    public void onRequestFinished(Request<Object> request) {
+                        if (progressDialog.isShowing()) {
+                            progressDialog.dismiss();
+                        }
+                    }
+                });
+            } catch (JSONException e) {
                 e.printStackTrace();
             }
-        }else{
+        } else {
             Toast.makeText(getApplicationContext(), "Both username and password are required", Toast.LENGTH_LONG).show();
         }
     }

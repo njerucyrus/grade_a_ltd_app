@@ -1,5 +1,6 @@
 package com.me.njerucyrus.gradea;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -43,7 +44,8 @@ public class MainActivity extends AppCompatActivity
     RequestQueue requestQueue;
     RecyclerView recyclerView;
     MyAdapter adapter;
-    List<RecyclerItem> listItems =new ArrayList<>();;
+    List<RecyclerItem> listItems =new ArrayList<>();
+    ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +53,7 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -66,9 +69,14 @@ public class MainActivity extends AppCompatActivity
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
+        progressDialog = new ProgressDialog(this);
+
         requestQueue = VolleyRequestSingleton.getInstance(this.getApplicationContext()).getRequestQueue();
 
         final String URL = "http://grade.hudutech.com/api_backend/api/purchases.php?filter=non";
+
+        progressDialog.setMessage("Loading...");
+        progressDialog.show();
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, URL, null,
                 new Response.Listener<JSONObject>() {
                     @Override
@@ -130,6 +138,14 @@ public class MainActivity extends AppCompatActivity
                 }
         );
         requestQueue.add(jsonObjectRequest);
+        requestQueue.addRequestFinishedListener(new RequestQueue.RequestFinishedListener<Object>() {
+            @Override
+            public void onRequestFinished(Request<Object> request) {
+                if(progressDialog.isShowing()){
+                    progressDialog.dismiss();
+                }
+            }
+        });
 
 
     }

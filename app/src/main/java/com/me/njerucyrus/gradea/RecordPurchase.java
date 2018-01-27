@@ -1,6 +1,7 @@
 package com.me.njerucyrus.gradea;
 
 import android.app.DownloadManager;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -38,12 +39,15 @@ public class RecordPurchase extends AppCompatActivity {
     TextView mPayeeName, mPhoneNumber, mDescription, mAuthorisedBy,
             mReceiptNo, mProducts, mPrice;
 
+    ProgressDialog progressDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_record_purchase);
         ActionBar ab = getSupportActionBar();
 
+        progressDialog = new ProgressDialog(this);
 
         //print preview fields
 //        mPayeeName = (TextView) findViewById(R.id.mPayeeName);
@@ -86,7 +90,7 @@ public class RecordPurchase extends AppCompatActivity {
                         !price.equals("") && !receiptNo.equals("")) {
                     //do post
                     try {
-                        Toast.makeText(getApplicationContext(), "Submitting...", Toast.LENGTH_LONG).show();
+
                         SharedPreferences settings = getSharedPreferences("AUTH_DATA",
                                 Context.MODE_PRIVATE);
                         final String username = settings.getString("username", "Default User");
@@ -101,6 +105,10 @@ public class RecordPurchase extends AppCompatActivity {
                         jsonObject.put("kra_pin_no", kraPinNo);
                         jsonObject.put("product_names", productNames);
                         jsonObject.put("amount_paid", Float.parseFloat(price));
+
+                        progressDialog.setTitle("Submitting");
+                        progressDialog.setMessage("Please Wait...");
+                        progressDialog.show();
 
                         final String URL = "http://grade.hudutech.com/api_backend/api/purchases.php";
 
@@ -162,6 +170,14 @@ public class RecordPurchase extends AppCompatActivity {
                                 });
 
                         requestQueue.add(jsonObjectRequest);
+                        requestQueue.addRequestFinishedListener(new RequestQueue.RequestFinishedListener<Object>() {
+                            @Override
+                            public void onRequestFinished(Request<Object> request) {
+                                if(progressDialog.isShowing()){
+                                    progressDialog.dismiss();
+                                }
+                            }
+                        });
 
                     } catch (JSONException e) {
                         e.printStackTrace();

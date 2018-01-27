@@ -41,6 +41,7 @@ public class RegisterActivity extends AppCompatActivity {
             txtEmail,
             txtPassword,
             txtConfirmPassword;
+    ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +54,10 @@ public class RegisterActivity extends AppCompatActivity {
 
         btnAuthRegister = (Button)findViewById(R.id.btnAuthRegister);
         txtHaveAcc = (TextView)findViewById(R.id.txtHaveAcc);
+
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setTitle("Creating Account");
+        progressDialog.setMessage("Please wait...");
 
         requestQueue = VolleyRequestSingleton.getInstance(this.getApplicationContext()).getRequestQueue();
 
@@ -96,8 +101,7 @@ public class RegisterActivity extends AppCompatActivity {
                             jsonObject.put("phone_number", phoneNumber);
                             jsonObject.put("password", password);
                             final String URL = "http://grade.hudutech.com/api_backend/api/users.php?action=create_account";
-
-                            Toast.makeText(getApplicationContext(), "Creating account ... ", Toast.LENGTH_LONG).show();
+                            progressDialog.show();
 
                             JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, URL, jsonObject,
                                     new Response.Listener<JSONObject>() {
@@ -162,6 +166,14 @@ public class RegisterActivity extends AppCompatActivity {
                             });
 
                             requestQueue.add(jsonObjectRequest);
+                            requestQueue.addRequestFinishedListener(new RequestQueue.RequestFinishedListener<Object>() {
+                                @Override
+                                public void onRequestFinished(Request<Object> request) {
+                                    if(progressDialog.isShowing()){
+                                        progressDialog.dismiss();
+                                    }
+                                }
+                            });
 
                         } catch (JSONException e) {
                             e.printStackTrace();
