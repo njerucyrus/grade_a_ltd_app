@@ -5,7 +5,10 @@ package com.me.njerucyrus.gradea;
  */
 
 public class RecyclerItem {
+    private int id;
     private String receiptNo;
+    private String phoneNumber;
+    private String authorisedBy;
     private String vatNo;
     private String kraPin;
     private String payeeName;
@@ -29,12 +32,36 @@ public class RecyclerItem {
         this.date = date;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public String getReceiptNo() {
         return receiptNo;
     }
 
     public void setReceiptNo(String receiptNo) {
         this.receiptNo = receiptNo;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public String getAuthorisedBy() {
+        return authorisedBy;
+    }
+
+    public void setAuthorisedBy(String authorisedBy) {
+        this.authorisedBy = authorisedBy;
     }
 
     public String getVatNo() {

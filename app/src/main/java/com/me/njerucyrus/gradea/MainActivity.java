@@ -93,6 +93,7 @@ public class MainActivity extends AppCompatActivity
                                     JSONObject object = data.optJSONObject(i);
 
                                     RecyclerItem item = new RecyclerItem();
+                                    item.setId(object.getInt("id"));
                                     item.setReceiptNo(object.getString("receipt_no"));
                                     item.setVatNo(object.getString("vat_no"));
                                     item.setKraPin(object.getString("kra_pin_no"));

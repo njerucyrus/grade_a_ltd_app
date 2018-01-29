@@ -37,8 +37,6 @@ public class RecordPurchase extends AppCompatActivity {
     EditText txtPayeeName, txtPayeePhoneNumber, txtDescription, txtReceiptNo,
             txtVatNo, txtKraPinNo, txtProductNames, txtPrice;
 
-    TextView mPayeeName, mPhoneNumber, mDescription, mAuthorisedBy,
-            mReceiptNo, mProducts, mPrice;
 
     ProgressDialog progressDialog;
 
@@ -50,15 +48,6 @@ public class RecordPurchase extends AppCompatActivity {
 
         progressDialog = new ProgressDialog(this);
 
-        //print preview fields
-//        mPayeeName = (TextView) findViewById(R.id.mPayeeName);
-//        mPhoneNumber = (TextView) findViewById(R.id.mPhoneNumber);
-//        mDescription = (TextView) findViewById(R.id.mDescription);
-//        mAuthorisedBy = (TextView) findViewById(R.id.mAuthorisedBy);
-//        mReceiptNo = (TextView) findViewById(R.id.mReceiptNo);
-//        mProducts = (TextView) findViewById(R.id.mProducts);
-//        mPrice = (TextView) findViewById(R.id.mPrice);
-//        //end of print preview fields
 
         requestQueue = VolleyRequestSingleton.getInstance(this.getApplicationContext()).getRequestQueue();
 
