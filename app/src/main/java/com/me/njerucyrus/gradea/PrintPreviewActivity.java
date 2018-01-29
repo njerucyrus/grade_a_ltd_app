@@ -1,6 +1,7 @@
 package com.me.njerucyrus.gradea;
 
 import android.content.Intent;
+import android.os.Handler;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -30,4 +31,6 @@ public class PrintPreviewActivity extends AppCompatActivity {
         // Enable the Up button
 
     }
+
+
 }

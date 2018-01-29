@@ -5,8 +5,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -35,6 +38,7 @@ public class LoginActivity extends AppCompatActivity {
     TextView txtDontHaveAcc, txtForgotPassword;
     EditText txtAuthUsername, txtAuthPassword;
     ProgressDialog progressDialog;
+    boolean doubleBackToExitPressedOnce = false;
     final String URL = "http://grade.hudutech.com/api_backend/api/users.php?action=login";
 
     @Override
@@ -42,8 +46,13 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        txtAuthUsername = (EditText) findViewById(R.id.txtAuthUsername);
+        txtAuthPassword = (EditText) findViewById(R.id.txtAuthPassword);
+        watchInput();
+
         ActionBar ab = getSupportActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
+
 
         btnAuthLogin = (Button) findViewById(R.id.btnAuthLogin);
         txtDontHaveAcc = (TextView) findViewById(R.id.txtDontHaveAcc);
@@ -78,8 +87,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void doLogin() {
-        txtAuthUsername = (EditText) findViewById(R.id.txtAuthUsername);
-        txtAuthPassword = (EditText) findViewById(R.id.txtAuthPassword);
+
 
         String authUsername, authPassword;
 
@@ -174,22 +182,42 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    public boolean validate(){
+
+
+    public boolean validate() {
         boolean valid = true;
-        if (txtAuthUsername.getText().toString().isEmpty()){
+        if (txtAuthUsername.getText().toString().isEmpty()) {
             txtAuthUsername.setError("This field is required");
             valid = false;
-        }else{
+        } else {
             txtAuthUsername.setError(null);
 
         }
-        if (txtAuthPassword.getText().toString().isEmpty()){
+        if (txtAuthPassword.getText().toString().isEmpty()) {
             txtAuthPassword.setError("This field is required");
             valid = false;
-        }else{
+        } else {
             txtAuthPassword.setError(null);
 
         }
         return valid;
+    }
+
+    public void watchInput() {
+        txtAuthUsername.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                txtAuthUsername.setError(null);
+            }
+        });
+
+        txtAuthPassword.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                txtAuthPassword.setError(null);
+            }
+        });
     }
 }

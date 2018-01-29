@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Handler;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -121,15 +122,6 @@ public class RecordPurchase extends AppCompatActivity {
 
                                                 Toast.makeText(getApplicationContext(), response.getString("message"), Toast.LENGTH_LONG).show();
 
-//
-//                                                mPayeeName.setText(payeeName);
-//                                                mPhoneNumber.setText(payeePhoneNumber);
-//                                                mDescription.setText(description);
-//                                                mAuthorisedBy.setText(username);
-//                                                mReceiptNo.setText(receiptNo);
-//                                                mProducts.setText(productNames);
-//                                                mPrice.setText(price);
-
                                                 startActivity(new Intent(getApplicationContext(), PrintPreviewActivity.class));
 
 
@@ -193,6 +185,8 @@ public class RecordPurchase extends AppCompatActivity {
         ab.setDisplayHomeAsUpEnabled(true);
     }
 
+
+
     public boolean validate(){
         boolean valid = true;
         if(txtPayeeName.getText().toString().isEmpty()){
@@ -253,6 +247,29 @@ public class RecordPurchase extends AppCompatActivity {
 
         return valid;
 
+    }
+
+    public void watchInput(){
+        txtPrice.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                txtPrice.setError(null);
+            }
+        });
+
+        txtProductNames.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                txtProductNames.setError(null);
+            }
+        });
+
+        txtDescription.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                txtDescription.setError(null);
+            }
+        });
     }
 
 

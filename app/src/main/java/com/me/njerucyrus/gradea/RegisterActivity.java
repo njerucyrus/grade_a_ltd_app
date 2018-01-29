@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 
 import android.content.SharedPreferences;
+import android.os.Handler;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -42,6 +43,7 @@ public class RegisterActivity extends AppCompatActivity {
             txtPassword,
             txtConfirmPassword;
     ProgressDialog progressDialog;
+    boolean doubleBackToExitPressedOnce = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +52,14 @@ public class RegisterActivity extends AppCompatActivity {
 
         ActionBar ab = getSupportActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
+
+        txtFullname = (EditText)findViewById(R.id.txtFullname);
+        txtPhoneNumber = (EditText)findViewById(R.id.txtPhoneNumber);
+        txtEmail = (EditText)findViewById(R.id.txtEmail);
+        txtPassword = (EditText)findViewById(R.id.txtPassword);
+        txtConfirmPassword = (EditText)findViewById(R.id.txtConfirmPassword);
+
+        watchInput();
 
 
         btnAuthRegister = (Button)findViewById(R.id.btnAuthRegister);
@@ -71,7 +81,6 @@ public class RegisterActivity extends AppCompatActivity {
 
 
 
-
         btnAuthRegister.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -85,14 +94,11 @@ public class RegisterActivity extends AppCompatActivity {
 
     }
 
+
     public void doCreateAccount(){
         final String fullName, phoneNumber, email, password, confirmPassword;
 
-        txtFullname = (EditText)findViewById(R.id.txtFullname);
-        txtPhoneNumber = (EditText)findViewById(R.id.txtPhoneNumber);
-        txtEmail = (EditText)findViewById(R.id.txtEmail);
-        txtPassword = (EditText)findViewById(R.id.txtPassword);
-        txtConfirmPassword = (EditText)findViewById(R.id.txtConfirmPassword);
+
 
         fullName = txtFullname.getText().toString();
         phoneNumber = txtPhoneNumber.getText().toString();
@@ -231,4 +237,38 @@ public class RegisterActivity extends AppCompatActivity {
         }
         return valid;
     }
+
+    public void watchInput(){
+
+        txtFullname.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                txtFullname.setError(null);
+            }
+        });
+
+        txtPhoneNumber.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                txtPhoneNumber.setError(null);
+            }
+        });
+        txtPassword.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                txtPassword.setError(null);
+            }
+        });
+        txtConfirmPassword.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                txtConfirmPassword.setError(null);
+            }
+        });
+    }
+
 }

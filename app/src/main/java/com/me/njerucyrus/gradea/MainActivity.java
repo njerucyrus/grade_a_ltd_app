@@ -1,10 +1,13 @@
 package com.me.njerucyrus.gradea;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -46,6 +49,7 @@ public class MainActivity extends AppCompatActivity
     MyAdapter adapter;
     List<RecyclerItem> listItems =new ArrayList<>();
     ProgressDialog progressDialog;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -150,15 +154,15 @@ public class MainActivity extends AppCompatActivity
 
     }
 
-    @Override
-    public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
-    }
+//    @Override
+//    public void onBackPressed() {
+//        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+//        if (drawer.isDrawerOpen(GravityCompat.START)) {
+//            drawer.closeDrawer(GravityCompat.START);
+//        } else {
+//            super.onBackPressed();
+//        }
+//    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -193,19 +197,43 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_gallery) {
             startActivity(new Intent(getApplicationContext(), MainActivity.class));
         } else if (id == R.id.nav_slideshow) {
-            SharedPreferences settings = getSharedPreferences("AUTH_DATA",
-                    Context.MODE_PRIVATE);
-
-            SharedPreferences.Editor editor = settings.edit();
-            editor.putString("username", "");
-            editor.commit();
-            startActivity(new Intent(getApplicationContext(), WelcomeActivity.class));
+            logout();
 
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+
+
+    private void logout() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Are you sure you want to logout?");
+        builder.setMessage("You will be logged out");
+        builder.setCancelable(false);
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                SharedPreferences settings = getSharedPreferences("AUTH_DATA",
+                        Context.MODE_PRIVATE);
+
+                SharedPreferences.Editor editor = settings.edit();
+                editor.putString("username", "");
+                editor.commit();
+                startActivity(new Intent(getApplicationContext(), WelcomeActivity.class));
+            }
+        });
+
+        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+
+        builder.show();
     }
 
 
