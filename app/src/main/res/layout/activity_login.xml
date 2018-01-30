@@ -32,38 +32,48 @@
 
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:background="@xml/edit_text_bg_lg"
+            android:padding="10dp"
+            android:layout_marginTop="1dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            >
 
             <EditText
                 android:id="@+id/txtAuthUsername"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="1dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
+                android:layout_height="24dp"
                 android:drawableStart="@drawable/ic_perm_identity_black_24dp"
                 android:hint="Enter your email or Phone Number"
+                android:background="@null"
                 android:textSize="16sp"
-
-
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 />
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:background="@xml/edit_text_bg_lg"
+            android:padding="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            >
 
             <EditText
                 android:id="@+id/txtAuthPassword"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
+                android:layout_height="24dp"
                 android:drawableStart="@drawable/ic_lock_outline_black_24dp"
                 android:hint="Enter Your Password"
                 android:inputType="textPassword"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:textSize="16dp" />
+                android:background="@null"
+                android:textSize="16sp" />
         </android.support.design.widget.TextInputLayout>
 
         <Button
