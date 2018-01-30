@@ -5,16 +5,16 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_camera"
+            android:id="@+id/nav_create_new_record"
             android:icon="@drawable/ic_add_black_24dp"
             android:title="Record Purchase" />
         <item
-            android:id="@+id/nav_gallery"
+            android:id="@+id/nav_view_records"
             android:icon="@drawable/ic_remove_red_eye_black_24dp"
             android:title="View Records" />
 
         <item
-            android:id="@+id/nav_slideshow"
+            android:id="@+id/nav_logout"
             android:icon="@drawable/ic_power_settings_new_black_24dp"
             android:title="Logout" />
     </group>

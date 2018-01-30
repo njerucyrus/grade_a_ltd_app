@@ -33,9 +33,6 @@ public class PrintPreviewActivity extends AppCompatActivity {
 
     Button btnPrint;
     private int itemId;
-    RequestQueue requestQueue;
-    ProgressDialog progressDialog;
-    private RecyclerItem item;
     private TextView mPayeeName, mPhoneNumber, mDescription, mAuthorisedBy,
             mReceiptNo, mProducts, mPrice, mDate;
 
@@ -45,13 +42,6 @@ public class PrintPreviewActivity extends AppCompatActivity {
         setContentView(R.layout.activity_print_preview);
         ActionBar ab = getSupportActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
-        SharedPreferences settings = getSharedPreferences("PRINT_DATA",
-                Context.MODE_PRIVATE);
-
-        itemId = settings.getInt("id", 0);
-
-        requestQueue = VolleyRequestSingleton.getInstance(this).getRequestQueue();
-
 
         mPayeeName = (TextView) findViewById(R.id.mPayeeName);
         mPhoneNumber = (TextView) findViewById(R.id.mPhoneNumber);
@@ -62,83 +52,19 @@ public class PrintPreviewActivity extends AppCompatActivity {
         mPrice = (TextView) findViewById(R.id.mPrice);
         mDate = (TextView) findViewById(R.id.mDate);
 
+        SharedPreferences settings = getSharedPreferences("PRINT_DATA",
+                Context.MODE_PRIVATE);
 
-        progressDialog = new ProgressDialog(this);
-        progressDialog.setMessage("Loading...");
-        progressDialog.show();
-        item = new RecyclerItem();
-        final String URL = "http://grade.hudutech.com/api_backend/api/purchases.php?filter=non&id=" + itemId;
-        JsonObjectRequest req = new JsonObjectRequest(Request.Method.GET, URL, null,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        try {
+        itemId = settings.getInt("id", 0);
 
-                            if (response.getInt("status_code") == 200) {
-                                JSONObject object = response.getJSONObject("data");
-                                item.setId(object.getInt("id"));
-                                item.setReceiptNo("Receipt No: "+object.getString("receipt_no"));
-                                item.setPhoneNumber("Phone Number: "+object.getString("phone_number"));
-                                item.setAuthorisedBy("Authorised By: "+object.getString("authorised_by"));
-                                item.setVatNo("V.A.T NO: "+object.getString("vat_no"));
-                                item.setKraPin("K.R.A PIN NO: "+object.getString("kra_pin_no"));
-                                item.setPayeeName("Payee Name: " +object.getString("payee_name"));
-                                item.setProducts("Products : "+object.getString("product_names"));
-                                item.setDescription("Description: "+object.getString("payment_description"));
-                                item.setPrice("Total Price: "+object.getString("amount_paid"));
-                                item.setDate("Date Paid: "+object.getString("date_paid"));
-
-
-                                mPayeeName.setText(item.getPayeeName());
-                                mPhoneNumber.setText(item.getPhoneNumber());
-                                mDescription.setText(item.getDescription());
-                                mAuthorisedBy.setText(item.getAuthorisedBy());
-                                mReceiptNo.setText(item.getReceiptNo());
-                                mProducts.setText(item.getProducts());
-                                mPrice.setText(item.getPrice());
-                                mDate.setText(item.getDate());
-
-                            } else {
-                                Toast.makeText(getApplicationContext(), "Failed to fetch details try again", Toast.LENGTH_LONG).show();
-                            }
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        String message = null;
-                        if (error instanceof NetworkError) {
-                            message = "Cannot connect to Internet...Please check your connection!";
-                        } else if (error instanceof ServerError) {
-                            message = "The server could not be found. Please try again after some time!!";
-                        } else if (error instanceof AuthFailureError) {
-                            message = "Cannot connect to Internet...Please check your connection!";
-                        } else if (error instanceof ParseError) {
-                            message = "Parsing error! Please try again after some time!!";
-                        } else if (error instanceof NoConnectionError) {
-                            message = "Cannot connect to Internet...Please check your connection!";
-                        } else if (error instanceof TimeoutError) {
-                            message = "Connection TimeOut! Please check your internet connection.";
-                        }
-                        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
-
-
-                    }
-                }
-        );
-        requestQueue.add(req);
-        requestQueue.addRequestFinishedListener(new RequestQueue.RequestFinishedListener<Object>() {
-            @Override
-            public void onRequestFinished(Request<Object> request) {
-                if (progressDialog.isShowing()) {
-                    progressDialog.dismiss();
-                }
-            }
-        });
+        mPayeeName.setText(settings.getString("payee_name", ""));
+        mPhoneNumber.setText(settings.getString("phone_number", ""));
+        mDescription.setText(settings.getString("description", ""));
+        mAuthorisedBy.setText(settings.getString("authorised_by", ""));
+        mReceiptNo.setText(settings.getString("receipt_no", ""));
+        mProducts.setText(settings.getString("product_names", ""));
+        mPrice.setText(settings.getString("total_price", ""));
+        mDate.setText(settings.getString("date", ""));
 
 
         btnPrint = (Button) findViewById(R.id.btnPrint);

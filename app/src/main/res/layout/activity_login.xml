@@ -19,7 +19,7 @@
             android:layout_marginTop="15dp"
             android:gravity="center"
             android:textColor="@color/colorBlack"
-            android:text="Welcome To Grade A Ltd App"
+            android:text="Welcome To Grade (A) Kenya Ltd App"
             android:textSize="24dp" />
 
         <TextView
@@ -83,6 +83,7 @@
             android:layout_marginTop="10dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
+            android:textStyle="bold"
             android:text="LOGIN" />
 
         <Space

@@ -101,6 +101,8 @@ public class MainActivity extends AppCompatActivity
                                     item.setProducts(object.getString("product_names"));
                                     item.setDescription(object.getString("payment_description"));
                                     item.setPrice(object.getString("amount_paid"));
+                                    item.setPhoneNumber(object.getString("phone_number"));
+                                    item.setAuthorisedBy(object.getString("authorised_by"));
                                     item.setDate(object.getString("date_paid"));
                                     listItems.add(item);
                                 }
@@ -193,11 +195,11 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
+        if (id == R.id.nav_create_new_record) {
             startActivity(new Intent(getApplicationContext(), RecordPurchase.class));
-        } else if (id == R.id.nav_gallery) {
+        } else if (id == R.id.nav_view_records) {
             startActivity(new Intent(getApplicationContext(), MainActivity.class));
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.nav_logout) {
             logout();
 
         }

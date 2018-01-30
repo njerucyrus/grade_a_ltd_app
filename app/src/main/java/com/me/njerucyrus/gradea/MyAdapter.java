@@ -75,6 +75,17 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 
                         RecyclerItem item = listItems.get(pos);
                         editor.putInt("id", item.getId());
+
+                        editor.putString("receipt_no", "Receipt No: "+item.getReceiptNo());
+                        editor.putString("phone_number","Phone Number: "+item.getPhoneNumber());
+                        editor.putString("authorised_by","Authorised By: "+item.getAuthorisedBy());
+                        editor.putString("vat_no","V.A.T NO: "+item.getVatNo());
+                        editor.putString("kra_pin", "K.R.A PIN NO: "+item.getKraPin());
+                        editor.putString("payee_name","Payee Name: " +item.getPayeeName());
+                        editor.putString("product_names","Products : "+item.getProducts());
+                        editor.putString("description","Description: "+item.getDescription());
+                        editor.putString("total_price","Total Price: "+item.getPrice());
+                        editor.putString("date", "Date Paid: "+item.getDate());
                         editor.apply();
                         editor.commit();
 

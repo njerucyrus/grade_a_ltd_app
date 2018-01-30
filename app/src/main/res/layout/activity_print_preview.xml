@@ -90,6 +90,7 @@
             android:layout_height="wrap_content"
             android:background="@color/colorPrimaryDark"
             android:text="Print"
+            android:textStyle="bold"
             android:textColor="#fff"
             android:layout_margin="5dp"
             />

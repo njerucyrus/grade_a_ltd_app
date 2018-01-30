@@ -17,7 +17,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Welcome To Grade A Ltd App"
+            android:text="Welcome To Grade (A) Kenya Ltd App"
             android:gravity="center"
             android:textColor="@color/colorBlack"
             android:textSize="24dp"
@@ -39,6 +39,7 @@
                 android:textColor="#FFF"
                 android:layout_margin="10dp"
                 android:text="Sign In"
+                android:textStyle="bold"
                 android:id="@+id/btnLogin"
                 />
 
@@ -50,6 +51,7 @@
                 android:layout_marginTop="10dp"
                 android:background="@color/colorBlack"
                 android:text="Sign UP"
+                android:textStyle="bold"
                 android:textColor="@color/colorWhite" />
 
 
