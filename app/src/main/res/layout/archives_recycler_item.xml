@@ -3,23 +3,26 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
+    android:background="@color/colorBlack"
     >
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/colorBlack"
         android:elevation="1dp">
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="@dimen/activity_horizontal_margin"
+            android:background="@color/colorBlack"
             >
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/txtTitle"
+                android:id="@+id/txtArchiveTitle"
                 android:text="Title"
                 android:textStyle="bold"
-                android:textColor="@color/colorBlack"
+                android:textColor="@color/colorLightGrey"
                 android:textAppearance="?android:textAppearanceLarge"
                 />
             <LinearLayout
@@ -32,34 +35,24 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/txtItemDescription"
+                android:id="@+id/txtItemArchiveDescription"
                 android:text="Description"
-                android:textColor="@color/colorBlack"
+                android:layout_marginTop="25dp"
+                android:textColor="@color/colorLightGrey"
                 android:textStyle="bold"
                 android:textAppearance="?android:textAppearanceMedium"
                 />
             </LinearLayout>
 
             <Button
-                android:id="@+id/recycler_btn_archive"
+                android:id="@+id/recycler_btn_remove_archive"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Archive"
+                android:text="Restore"
                 android:layout_below="@id/desc_layout"
-                android:layout_alignParentLeft="true"
-                android:drawableLeft="@drawable/ic_archive_black_24dp"
-
+                android:layout_alignParentEnd="true"
+                android:drawableStart="@drawable/ic_unarchive_black_24dp"
                 />
-            <Button
-                android:id="@+id/recycler_btn_print_preview"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Print Preview"
-                android:layout_below="@id/desc_layout"
-                android:layout_alignParentRight="true"
-                android:drawableLeft="@drawable/ic_print_black_24dp"
-                />
-
 
         </RelativeLayout>
     </android.support.v7.widget.CardView>

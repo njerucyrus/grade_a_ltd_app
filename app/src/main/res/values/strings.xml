@@ -6,6 +6,7 @@
     <string name="print_preview_name">Print Preview</string>
     <string name="transactions_name">Records List</string>
     <string name="record_purchase_name">Record A New Entry</string>
+    <string name="archives_name">Archive Records</string>
     <string name="label_search_results">Search Results</string>
 
     <string name="vertical_ellipsis">&#8942;</string>

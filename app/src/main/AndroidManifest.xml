@@ -19,43 +19,32 @@
         <activity
             android:name=".MainActivity"
             android:label="@string/transactions_name"
-            android:theme="@style/AppTheme.NoActionBar"
-            >
-
+            android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.app.default_searchable"
-                android:value=".SearchResultActivity"/>
+                android:value=".SearchResultActivity" />
+
             <intent-filter>
                 <category android:name="android.intent.category.DEFAULT" />
-                <action android:name="android.intent.action.SEARCH"/>
+
+                <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".SearchResultActivity"
             android:label="@string/label_search_results"
-            android:parentActivityName="com.me.njerucyrus.gradea.MainActivity"
-            >
+            android:parentActivityName=".MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.me.njerucyrus.gradea.MainActivity" />
-            <meta-data android:name="android.app.searchable"
+            <meta-data
+                android:name="android.app.searchable"
                 android:resource="@xml/searchable" />
+
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
-
         </activity>
-
-
-
-
-
-
-
-
-
-
         <activity
             android:name=".RecordPurchase"
             android:label="@string/record_purchase_name">
@@ -91,8 +80,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.me.njerucyrus.gradea.MainActivity" />
         </activity>
+        <activity android:name=".ArchivesActivity"
+            android:label="@string/archives_name"
+            >
 
-
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.me.njerucyrus.gradea.MainActivity" />
+        </activity>
     </application>
 
 </manifest>

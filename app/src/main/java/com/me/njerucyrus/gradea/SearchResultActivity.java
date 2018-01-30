@@ -75,7 +75,7 @@ public class SearchResultActivity extends AppCompatActivity {
             //use the query to search your data somehow
 
 
-            final String URL = "http://grade.hudutech.com/api_backend/api/purchases.php?filter=date&date_value=" + query;
+            final String URL = "http://grade.hudutech.com/api_backend/api/purchases.php?query=" + query;
 
             progressDialog.setMessage("Loading...");
             progressDialog.show();

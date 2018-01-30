@@ -19,17 +19,9 @@
             android:layout_marginTop="15dp"
             android:gravity="center"
             android:textColor="@color/colorBlack"
-            android:text="Welcome To Grade (A) Kenya Ltd App"
-            android:textSize="24dp" />
+            android:text="Welcome To Grade (A) Kenya Ltd"
+            android:textSize="24sp" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:gravity="center"
-            android:textColor="@color/colorBlack"
-            android:text="Login Page"
-            android:textSize="24dp" />
 
         <ImageView
             android:layout_width="wrap_content"
@@ -46,11 +38,12 @@
                 android:id="@+id/txtAuthUsername"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="1dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
+                android:drawableStart="@drawable/ic_perm_identity_black_24dp"
                 android:hint="Enter your email or Phone Number"
-                android:textSize="16dp"
+                android:textSize="16sp"
 
 
                 />
@@ -65,11 +58,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
+                android:drawableStart="@drawable/ic_lock_outline_black_24dp"
                 android:hint="Enter Your Password"
                 android:inputType="textPassword"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-
                 android:textSize="16dp" />
         </android.support.design.widget.TextInputLayout>
 
@@ -96,6 +89,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:gravity="center"
+            android:focusable="true"
             android:text="Forgot Password?"
             android:textSize="16dp"
 
@@ -112,6 +106,7 @@
             android:layout_marginTop="10dp"
             android:layout_marginLeft="10dp"
             android:layout_marginBottom="15dp"
+            android:focusable="true"
             android:textColor="@color/colorBlue"
             android:text="Don't Have an account?"
             />

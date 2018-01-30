@@ -13,6 +13,12 @@
             android:icon="@drawable/ic_remove_red_eye_black_24dp"
             android:title="View Records" />
 
+
+        <item
+            android:id="@+id/nav_archives"
+            android:icon="@drawable/ic_archive_black_24dp"
+            android:title="Archives" />
+
         <item
             android:id="@+id/nav_logout"
             android:icon="@drawable/ic_power_settings_new_black_24dp"

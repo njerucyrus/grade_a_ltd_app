@@ -16,6 +16,7 @@ public class RecyclerItem {
     private String description;
     private String price;
     private String date;
+    private int isArchived;
 
     public RecyclerItem(){}
 
@@ -118,5 +119,13 @@ public class RecyclerItem {
 
     public void setDate(String date) {
         this.date = date;
+    }
+
+    public int getIsArchived() {
+        return isArchived;
+    }
+
+    public void setIsArchived(int isArchived) {
+        this.isArchived = isArchived;
     }
 }
