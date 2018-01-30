@@ -19,15 +19,46 @@
         <activity
             android:name=".MainActivity"
             android:label="@string/transactions_name"
-            android:theme="@style/AppTheme.NoActionBar">
-            <intent-filter>
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity android:name=".RecordPurchase"
-            android:label="@string/record_purchase_name"
+            android:theme="@style/AppTheme.NoActionBar"
             >
 
+            <meta-data
+                android:name="android.app.default_searchable"
+                android:value=".SearchResultActivity"/>
+            <intent-filter>
+                <category android:name="android.intent.category.DEFAULT" />
+                <action android:name="android.intent.action.SEARCH"/>
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".SearchResultActivity"
+            android:label="@string/label_search_results"
+            android:parentActivityName="com.me.njerucyrus.gradea.MainActivity"
+            >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.me.njerucyrus.gradea.MainActivity" />
+            <meta-data android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+            </intent-filter>
+
+        </activity>
+
+
+
+
+
+
+
+
+
+
+        <activity
+            android:name=".RecordPurchase"
+            android:label="@string/record_purchase_name">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.me.njerucyrus.gradea.MainActivity" />
@@ -39,27 +70,29 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".LoginActivity"
-            android:label="@string/login_name"
-            >
+        <activity
+            android:name=".LoginActivity"
+            android:label="@string/login_name">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.me.njerucyrus.gradea.WelcomeActivity" />
         </activity>
-        <activity android:name=".RegisterActivity"
-            android:label="@string/register_name"
-            >
+        <activity
+            android:name=".RegisterActivity"
+            android:label="@string/register_name">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.me.njerucyrus.gradea.WelcomeActivity" />
         </activity>
-        <activity android:name=".PrintPreviewActivity"
-            android:label="@string/print_preview_name"
-            >
+        <activity
+            android:name=".PrintPreviewActivity"
+            android:label="@string/print_preview_name">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.me.njerucyrus.gradea.MainActivity" />
         </activity>
+
+
     </application>
 
 </manifest>

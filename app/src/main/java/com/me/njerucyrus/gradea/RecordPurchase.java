@@ -45,6 +45,8 @@ public class RecordPurchase extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_record_purchase);
         ActionBar ab = getSupportActionBar();
+        // Enable the Up button
+        ab.setDisplayHomeAsUpEnabled(true);
 
         progressDialog = new ProgressDialog(this);
 
@@ -170,8 +172,7 @@ public class RecordPurchase extends AppCompatActivity {
             }
         });
 
-        // Enable the Up button
-        ab.setDisplayHomeAsUpEnabled(true);
+
     }
 
 
