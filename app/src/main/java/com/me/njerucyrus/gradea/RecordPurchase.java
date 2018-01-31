@@ -9,6 +9,7 @@ import android.os.Handler;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -65,14 +66,15 @@ public class RecordPurchase extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                final String payeeName, payeePhoneNumber, description, receiptNo, vatNo, kraPinNo, productNames, price;
+                final String payeeName, payeePhoneNumber, description, mpesaID, productNames, price;
 
-                payeeName = txtPayeeName.getText().toString();
-                payeePhoneNumber = txtPayeePhoneNumber.getText().toString();
-                description = txtDescription.getText().toString();
+                payeeName = txtPayeeName.getText().toString().trim();
+                payeePhoneNumber = txtPayeePhoneNumber.getText().toString().trim();
+                description = txtDescription.getText().toString().trim();
 
-                productNames = txtProductNames.getText().toString();
-                price = txtPrice.getText().toString();
+                productNames = txtProductNames.getText().toString().trim();
+                price = txtPrice.getText().toString().trim();
+                mpesaID = txtMpesaID.getText().toString().trim();
 
                 if (validate()) {
                     //do post
@@ -92,6 +94,8 @@ public class RecordPurchase extends AppCompatActivity {
                         jsonObject.put("kra_pin_no", "P051617414C");
                         jsonObject.put("product_names", productNames);
                         jsonObject.put("amount_paid", Float.parseFloat(price));
+                        jsonObject.put("amount_paid", Float.parseFloat(price));
+                        jsonObject.put("mpesa_code", mpesaID);
 
                         progressDialog.setTitle("Submitting");
                         progressDialog.setMessage("Please Wait...");
@@ -108,13 +112,34 @@ public class RecordPurchase extends AppCompatActivity {
                                             if (response.getInt("status_code") == 201) {
 
 
-                                                Toast.makeText(getApplicationContext(), response.getString("message"), Toast.LENGTH_LONG).show();
+                                                JSONObject data = response.getJSONObject("data");
 
+                                                SharedPreferences settings = getApplicationContext().getSharedPreferences("PRINT_DATA",
+                                                        Context.MODE_PRIVATE);
+
+                                                SharedPreferences.Editor editor = settings.edit();
+
+                                                editor.putString("receipt_no", "Receipt No: " +data.getString("receipt_no"));
+                                                editor.putString("phone_number", "Phone Number: " + data.getString("phone_number"));
+                                                editor.putString("authorised_by", "Authorised By: " +data.getString("authorised_by"));
+                                                editor.putString("vat_no", "V.A.T NO: " +data.getString("vat_no"));
+                                                editor.putString("kra_pin", "K.R.A PIN NO: " + data.getString("kra_pin_no"));
+                                                editor.putString("payee_name", "Payee Name: " + data.getString("payee_name"));
+                                                editor.putString("product_names", "Products : " + data.getString("product_names"));
+                                                editor.putString("description", "Description: " + data.getString("payment_description"));
+                                                editor.putString("total_price", "Total Price: " + data.getString("amount_paid"));
+                                                editor.putString("date", "Date Paid: " +data.getString("date_paid"));
+                                                editor.putString("mpesa", "Mpesa ID: " + data.getString("mpesa_code"));
+                                                editor.apply();
+                                                editor.commit();
+
+                                                Toast.makeText(getApplicationContext(), response.getString("message"), Toast.LENGTH_LONG).show();
                                                 startActivity(new Intent(getApplicationContext(), PrintPreviewActivity.class));
 
 
+
                                             }
-                                            if (response.getInt("status_code") == 500) {
+                                            else if (response.getInt("status_code") == 500) {
                                                 Toast.makeText(getApplicationContext(), "Error " + response.getString("message"), Toast.LENGTH_LONG).show();
                                             }
 
@@ -176,21 +201,21 @@ public class RecordPurchase extends AppCompatActivity {
 
     public boolean validate(){
         boolean valid = true;
-        if(txtPayeeName.getText().toString().isEmpty()){
+        if(txtPayeeName.getText().toString().trim().isEmpty()){
             txtPayeeName.setError("This field is required");
             valid = false;
         }else{
             txtPayeeName.setError(null);
         }
 
-        if (txtPayeePhoneNumber.getText().toString().isEmpty()){
+        if (txtPayeePhoneNumber.getText().toString().trim().isEmpty()){
             txtPayeePhoneNumber.setError("This field is required");
             valid = false;
         }else{
             txtPayeePhoneNumber.setError(null);
         }
 
-        if(txtDescription.getText().toString().isEmpty()){
+        if(txtDescription.getText().toString().trim().isEmpty()){
             txtDescription.setError("This field is required");
             valid = false;
         }else{
@@ -199,7 +224,7 @@ public class RecordPurchase extends AppCompatActivity {
 
 
 
-        if (txtMpesaID.getText().toString().isEmpty()){
+        if (txtMpesaID.getText().toString().trim().isEmpty()){
             txtMpesaID.setError("This field is required");
             valid = false;
         }else{

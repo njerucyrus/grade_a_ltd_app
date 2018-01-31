@@ -100,11 +100,11 @@ public class RegisterActivity extends AppCompatActivity {
 
 
 
-        fullName = txtFullname.getText().toString();
-        phoneNumber = txtPhoneNumber.getText().toString();
-        email = txtEmail.getText().toString();
-        password = txtPassword.getText().toString();
-        confirmPassword = txtConfirmPassword.getText().toString();
+        fullName = txtFullname.getText().toString().trim();
+        phoneNumber = txtPhoneNumber.getText().toString().trim();
+        email = txtEmail.getText().toString().trim();
+        password = txtPassword.getText().toString().trim();
+        confirmPassword = txtConfirmPassword.getText().toString().trim();
         if (validate()) {
             if (password.equals(confirmPassword)) {
 
@@ -208,28 +208,28 @@ public class RegisterActivity extends AppCompatActivity {
 
     public boolean validate(){
         boolean valid = true;
-        if (txtFullname.getText().toString().isEmpty()){
+        if (txtFullname.getText().toString().trim().isEmpty()){
             txtFullname.setError("This field is required");
             valid = false;
         }else{
             txtFullname.setError(null);
         }
 
-        if (txtPhoneNumber.getText().toString().isEmpty()){
+        if (txtPhoneNumber.getText().toString().trim().isEmpty()){
             txtPhoneNumber.setError("This field is required");
             valid = false;
         }else{
             txtPhoneNumber.setError(null);
         }
 
-        if (txtPassword.getText().toString().isEmpty()){
+        if (txtPassword.getText().toString().trim().isEmpty()){
             txtPassword.setError("This field is required");
             valid = false;
         }else{
             txtPassword.setError(null);
         }
 
-        if (txtConfirmPassword.getText().toString().isEmpty()){
+        if (txtConfirmPassword.getText().toString().trim().isEmpty()){
             txtConfirmPassword.setError("This field is required");
             valid = false;
         }else{

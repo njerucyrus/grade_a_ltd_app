@@ -34,7 +34,7 @@ public class PrintPreviewActivity extends AppCompatActivity {
     Button btnPrint;
     private int itemId;
     private TextView mPayeeName, mPhoneNumber, mDescription, mAuthorisedBy,
-            mReceiptNo, mProducts, mPrice, mDate;
+            mReceiptNo, mProducts, mPrice, mDate, mPesa;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +51,7 @@ public class PrintPreviewActivity extends AppCompatActivity {
         mProducts = (TextView) findViewById(R.id.mProducts);
         mPrice = (TextView) findViewById(R.id.mPrice);
         mDate = (TextView) findViewById(R.id.mDate);
-
+        mPesa = (TextView)findViewById(R.id.mPesa);
         SharedPreferences settings = getSharedPreferences("PRINT_DATA",
                 Context.MODE_PRIVATE);
 
@@ -65,6 +65,7 @@ public class PrintPreviewActivity extends AppCompatActivity {
         mProducts.setText(settings.getString("product_names", ""));
         mPrice.setText(settings.getString("total_price", ""));
         mDate.setText(settings.getString("date", ""));
+        mPesa.setText(settings.getString("mpesa", ""));
 
 
         btnPrint = (Button) findViewById(R.id.btnPrint);

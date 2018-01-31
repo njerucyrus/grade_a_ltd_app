@@ -186,14 +186,14 @@ public class LoginActivity extends AppCompatActivity {
 
     public boolean validate() {
         boolean valid = true;
-        if (txtAuthUsername.getText().toString().isEmpty()) {
+        if (txtAuthUsername.getText().toString().trim().isEmpty()) {
             txtAuthUsername.setError("This field is required");
             valid = false;
         } else {
             txtAuthUsername.setError(null);
 
         }
-        if (txtAuthPassword.getText().toString().isEmpty()) {
+        if (txtAuthPassword.getText().toString().trim().isEmpty()) {
             txtAuthPassword.setError("This field is required");
             valid = false;
         } else {

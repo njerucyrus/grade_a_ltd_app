@@ -58,6 +58,14 @@
             android:layout_margin="5dp"
             />
         <TextView
+            android:id="@+id/mPesa"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Mpesa ID:  "
+            android:textColor="@color/colorBlack"
+            android:layout_margin="5dp"
+            />
+        <TextView
             android:id="@+id/mProducts"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
