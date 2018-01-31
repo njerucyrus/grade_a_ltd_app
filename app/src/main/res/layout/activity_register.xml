@@ -22,15 +22,7 @@
                 android:gravity="center"
                 android:textColor="@color/colorBlack"
                 android:text="Grade (A) Kenya Ltd"
-                android:textSize="24dp" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
-                android:gravity="center"
-                android:textColor="@color/colorBlack"
-                android:textSize="24dp" />
+                android:textSize="24sp" />
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -41,21 +33,25 @@
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-
+                android:background="@xml/edit_text_bg_lg"
+                android:padding="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 >
 
                 <EditText
                     android:id="@+id/txtFullname"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="24dp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
-                    android:layout_marginTop="5dp"
-                    android:drawableStart="@drawable/ic_perm_identity_black_24dp"
-                    android:ellipsize="start"
+                    android:drawableStart="@drawable/ic_perm_identity_black_32dp"
                     android:hint="Enter Your FullName"
+                    android:background="@null"
                     android:inputType="textPersonName"
                     android:textSize="16sp"
+                    android:drawablePadding="5dp"
 
 
                     />
@@ -64,6 +60,11 @@
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@xml/edit_text_bg_lg"
+                android:padding="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 >
 
                 <EditText
@@ -75,14 +76,22 @@
                     android:layout_marginTop="5dp"
                     android:drawableStart="@drawable/ic_phone_black_24dp"
                     android:hint="Enter Your Phone Number"
+                    android:background="@null"
                     android:inputType="phone"
-                    android:textSize="16sp" />
+                    android:textSize="16sp"
+                    android:drawablePadding="5dp"
+                    />
             </android.support.design.widget.TextInputLayout>
 
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@xml/edit_text_bg_lg"
+                android:padding="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 >
 
                 <EditText
@@ -91,16 +100,23 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
-                    android:layout_marginTop="5dp"
                     android:drawableStart="@drawable/ic_mail_outline_black_24dp"
                     android:hint="Enter Your Email Address (optional)"
                     android:inputType="textEmailAddress"
-                    android:textSize="16sp" />
+                    android:background="@null"
+                    android:textSize="16sp"
+                    android:drawablePadding="5dp"
+                    />
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@xml/edit_text_bg_lg"
+                android:padding="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 >
 
                 <EditText
@@ -109,16 +125,23 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
-                    android:layout_marginTop="5dp"
                     android:drawableStart="@drawable/ic_lock_outline_black_24dp"
-                    android:hint="Enter A password"
+                    android:hint="Enter Your Password"
                     android:inputType="textPassword"
-                    android:textSize="16sp" />
+                    android:background="@null"
+                    android:textSize="16sp"
+                    android:drawablePadding="5dp"
+                    />
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@xml/edit_text_bg_lg"
+                android:padding="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 >
 
                 <EditText
@@ -127,25 +150,26 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
-                    android:layout_marginTop="5dp"
-                    android:ellipsize="start"
                     android:drawableStart="@drawable/ic_lock_outline_black_24dp"
                     android:hint="Confirm Password"
                     android:inputType="textPassword"
-                    android:textSize="16dp" />
+                    android:background="@null"
+                    android:textSize="16sp"
+                    android:drawablePadding="5dp"
+                    />
             </android.support.design.widget.TextInputLayout>
 
             <Button
                 android:id="@+id/btnAuthRegister"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@xml/button_bg_lg"
                 android:layout_gravity="center"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="10dp"
-                android:background="@color/colorPrimaryDark"
                 android:textStyle="bold"
-                android:text="Sign UP"
+                android:text="SIGN UP"
                 android:textColor="@color/colorWhite" />
 
             <Space

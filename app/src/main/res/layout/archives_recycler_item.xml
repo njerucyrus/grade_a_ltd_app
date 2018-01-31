@@ -50,6 +50,7 @@
                 android:layout_height="wrap_content"
                 android:text="Restore"
                 android:layout_below="@id/desc_layout"
+                android:padding="2dp"
                 android:layout_alignParentEnd="true"
                 android:drawableStart="@drawable/ic_unarchive_black_24dp"
                 />

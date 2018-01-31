@@ -35,7 +35,6 @@
                 android:id="@+id/txtItemDescription"
                 android:text="Description"
                 android:textColor="@color/colorBlack"
-                android:textStyle="bold"
                 android:textAppearance="?android:textAppearanceMedium"
                 />
             </LinearLayout>
@@ -44,7 +43,9 @@
                 android:id="@+id/recycler_btn_archive"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="@xml/button_bg_default_lg"
                 android:text="Archive"
+                android:padding="2dp"
                 android:layout_below="@id/desc_layout"
                 android:layout_alignParentLeft="true"
                 android:drawableLeft="@drawable/ic_archive_black_24dp"
@@ -54,7 +55,9 @@
                 android:id="@+id/recycler_btn_print_preview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="@xml/button_bg_default_lg"
                 android:text="Print Preview"
+                android:padding="2dp"
                 android:layout_below="@id/desc_layout"
                 android:layout_alignParentRight="true"
                 android:drawableLeft="@drawable/ic_print_black_24dp"

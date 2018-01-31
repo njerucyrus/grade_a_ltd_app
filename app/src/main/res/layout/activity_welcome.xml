@@ -35,10 +35,10 @@
             <Button style="@style/Widget.AppCompat.Button.Colored"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/colorPrimaryDark"
+                android:background="@xml/button_bg_lg"
                 android:textColor="#FFF"
                 android:layout_margin="10dp"
-                android:text="Sign In"
+                android:text="SIGN IN"
                 android:textStyle="bold"
                 android:id="@+id/btnLogin"
                 />
@@ -49,8 +49,8 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:layout_marginTop="10dp"
-                android:background="@color/colorBlack"
-                android:text="Sign UP"
+                android:background="@xml/button_bg_black_lg"
+                android:text="SIGN UP"
                 android:textStyle="bold"
                 android:textColor="@color/colorWhite" />
 
