@@ -39,28 +39,18 @@
                 />
             </LinearLayout>
 
-            <Button
-                android:id="@+id/recycler_btn_archive"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@xml/button_bg_default_lg"
-                android:text="Archive"
-                android:padding="2dp"
-                android:layout_below="@id/desc_layout"
-                android:layout_alignParentLeft="true"
-                android:drawableLeft="@drawable/ic_archive_black_24dp"
 
-                />
-            <Button
-                android:id="@+id/recycler_btn_print_preview"
-                android:layout_width="wrap_content"
+            <TextView
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@xml/button_bg_default_lg"
-                android:text="Print Preview"
-                android:padding="2dp"
-                android:layout_below="@id/desc_layout"
-                android:layout_alignParentRight="true"
-                android:drawableLeft="@drawable/ic_print_black_24dp"
+                android:id="@+id/txtOptionDigit"
+                android:text="@string/vertical_ellipsis"
+                android:textColor="@color/colorBlack"
+                android:textAppearance="?android:textAppearanceLarge"
+                android:gravity="end"
+                android:textSize="30sp"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:layout_alignParentTop="true"
                 />
 
 

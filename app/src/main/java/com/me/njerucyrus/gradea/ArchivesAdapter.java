@@ -79,7 +79,6 @@ public class ArchivesAdapter extends RecyclerView.Adapter<ArchivesAdapter.ViewHo
             super(itemView);
             txtTitle = (TextView) itemView.findViewById(R.id.txtArchiveTitle);
             txtItemDescription = (TextView) itemView.findViewById(R.id.txtItemArchiveDescription);
-            btnRecyclerPrintPreview = (Button) itemView.findViewById(R.id.recycler_btn_print_preview);
 
             btnRemoveArchive = (Button) itemView.findViewById(R.id.recycler_btn_remove_archive);
             requestQueue = VolleyRequestSingleton.getInstance(itemView.getContext()).getRequestQueue();

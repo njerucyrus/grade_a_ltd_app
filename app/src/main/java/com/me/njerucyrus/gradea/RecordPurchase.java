@@ -34,8 +34,8 @@ import org.json.JSONObject;
 public class RecordPurchase extends AppCompatActivity {
     RequestQueue requestQueue;
     Button btnRecordPurchase;
-    EditText txtPayeeName, txtPayeePhoneNumber, txtDescription, txtReceiptNo,
-            txtVatNo, txtKraPinNo, txtProductNames, txtPrice;
+    EditText txtPayeeName, txtPayeePhoneNumber, txtDescription,
+            txtProductNames, txtPrice, txtMpesaID;
 
 
     ProgressDialog progressDialog;
@@ -51,29 +51,26 @@ public class RecordPurchase extends AppCompatActivity {
         progressDialog = new ProgressDialog(this);
 
 
+        txtPayeeName = (EditText) findViewById(R.id.txtPayeeName);
+        txtPayeePhoneNumber = (EditText) findViewById(R.id.txtPayeePhoneNumber);
+        txtDescription = (EditText) findViewById(R.id.txtDescription);
+        txtProductNames = (EditText) findViewById(R.id.txtProductNames);
+        txtPrice = (EditText) findViewById(R.id.txtPrice);
+        txtMpesaID = (EditText) findViewById(R.id.txtMpesaID);
+        watchInput();
         requestQueue = VolleyRequestSingleton.getInstance(this.getApplicationContext()).getRequestQueue();
 
         btnRecordPurchase = (Button) findViewById(R.id.btnRecordPurchase);
         btnRecordPurchase.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                txtPayeeName = (EditText) findViewById(R.id.txtPayeeName);
-                txtPayeePhoneNumber = (EditText) findViewById(R.id.txtPayeePhoneNumber);
-                txtDescription = (EditText) findViewById(R.id.txtDescription);
-                txtReceiptNo = (EditText) findViewById(R.id.txtReceiptNo);
-                txtVatNo = (EditText) findViewById(R.id.txtVatNo);
-                txtKraPinNo = (EditText) findViewById(R.id.txtKraPinNo);
-                txtProductNames = (EditText) findViewById(R.id.txtProductNames);
-                txtPrice = (EditText) findViewById(R.id.txtPrice);
 
                 final String payeeName, payeePhoneNumber, description, receiptNo, vatNo, kraPinNo, productNames, price;
 
                 payeeName = txtPayeeName.getText().toString();
                 payeePhoneNumber = txtPayeePhoneNumber.getText().toString();
                 description = txtDescription.getText().toString();
-                vatNo = txtVatNo.getText().toString();
-                receiptNo = txtReceiptNo.getText().toString();
-                kraPinNo = txtKraPinNo.getText().toString();
+
                 productNames = txtProductNames.getText().toString();
                 price = txtPrice.getText().toString();
 
@@ -90,9 +87,9 @@ public class RecordPurchase extends AppCompatActivity {
                         jsonObject.put("phone_number", payeePhoneNumber);
                         jsonObject.put("payment_description", description);
                         jsonObject.put("authorised_by", username);
-                        jsonObject.put("receipt_no", receiptNo);
-                        jsonObject.put("vat_no", vatNo);
-                        jsonObject.put("kra_pin_no", kraPinNo);
+                        jsonObject.put("receipt_no", "#123AUTO");
+                        jsonObject.put("vat_no", "#VAT_AUTO_123");
+                        jsonObject.put("kra_pin_no", "P051617414C");
                         jsonObject.put("product_names", productNames);
                         jsonObject.put("amount_paid", Float.parseFloat(price));
 
@@ -200,25 +197,13 @@ public class RecordPurchase extends AppCompatActivity {
             txtDescription.setError(null);
         }
 
-        if (txtReceiptNo.getText().toString().isEmpty()){
-            txtReceiptNo.setError("This field is required");
-            valid = false;
-        }else{
-            txtReceiptNo.setError(null);
-        }
 
-        if (txtVatNo.getText().toString().isEmpty()){
-            txtVatNo.setError("This field is required");
-            valid = false;
-        }else{
-            txtVatNo.setError(null);
-        }
 
-        if (txtKraPinNo.getText().toString().isEmpty()){
-            txtKraPinNo.setError("This field is required");
+        if (txtMpesaID.getText().toString().isEmpty()){
+            txtMpesaID.setError("This field is required");
             valid = false;
         }else{
-            txtKraPinNo.setError(null);
+            txtMpesaID.setError(null);
         }
 
         if (txtProductNames.getText().toString().isEmpty()){
@@ -246,6 +231,12 @@ public class RecordPurchase extends AppCompatActivity {
                 txtPrice.setError(null);
             }
         });
+        txtPayeeName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                txtPayeeName.setError(null);
+            }
+        });
 
         txtProductNames.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -258,6 +249,13 @@ public class RecordPurchase extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 txtDescription.setError(null);
+            }
+        });
+
+        txtMpesaID.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                txtMpesaID.setError(null);
             }
         });
     }

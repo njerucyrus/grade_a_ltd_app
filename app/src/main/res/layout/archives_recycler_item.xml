@@ -39,7 +39,6 @@
                 android:text="Description"
                 android:layout_marginTop="25dp"
                 android:textColor="@color/colorLightGrey"
-                android:textStyle="bold"
                 android:textAppearance="?android:textAppearanceMedium"
                 />
             </LinearLayout>
@@ -50,7 +49,7 @@
                 android:layout_height="wrap_content"
                 android:text="Restore"
                 android:layout_below="@id/desc_layout"
-                android:padding="2dp"
+                android:padding="4dp"
                 android:layout_alignParentEnd="true"
                 android:drawableStart="@drawable/ic_unarchive_black_24dp"
                 />
