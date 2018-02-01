@@ -15,6 +15,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -50,6 +51,7 @@ public class PrintPreviewActivity extends AppCompatActivity implements Runnable 
     private static final int REQUEST_CONNECT_DEVICE = 1;
     private static final int REQUEST_ENABLE_BT = 2;
     Button mScan, mPrint;
+    RecyclerItem item;
     BluetoothAdapter mBluetoothAdapter;
     private UUID applicationUUID = UUID
             .fromString("00001101-0000-1000-8000-00805F9B34FB");
@@ -63,6 +65,7 @@ public class PrintPreviewActivity extends AppCompatActivity implements Runnable 
         setContentView(R.layout.activity_print_preview);
         ActionBar ab = getSupportActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
+        item = new RecyclerItem();
 
         mPayeeName = (TextView) findViewById(R.id.mPayeeName);
         mPhoneNumber = (TextView) findViewById(R.id.mPhoneNumber);
@@ -86,6 +89,19 @@ public class PrintPreviewActivity extends AppCompatActivity implements Runnable 
         mPrice.setText(settings.getString("total_price", ""));
         mDate.setText(settings.getString("date", ""));
         mPesa.setText(settings.getString("mpesa", ""));
+
+        item.setPayeeName(settings.getString("payee_name", ""));
+        item.setPhoneNumber(settings.getString("phone_number", ""));
+        item.setDescription(settings.getString("description", ""));
+        item.setAuthorisedBy(settings.getString("authorised_by", ""));
+        item.setReceiptNo(settings.getString("receipt_no", ""));
+        item.setProducts(settings.getString("product_names", ""));
+        item.setPrice(settings.getString("total_price", ""));
+        item.setDate(settings.getString("date", ""));
+        item.setmPesa(settings.getString("mpesa", ""));
+
+
+
 
 
         mScan = (Button) findViewById(R.id.Scan);
@@ -112,7 +128,7 @@ public class PrintPreviewActivity extends AppCompatActivity implements Runnable 
         });
         mPrint = (Button) findViewById(R.id.mPrint);
         mPrint.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View mView) {
+            public void onClick(final View mView) {
                 Thread t = new Thread() {
                     public void run() {
                         try {
@@ -120,33 +136,38 @@ public class PrintPreviewActivity extends AppCompatActivity implements Runnable 
                                     .getOutputStream();
                             String BILL = "";
 
-                            BILL = "                   XXXX MART    \n"
-                                    + "                   XX.AA.BB.CC.     \n " +
-                                    "                 NO 25 ABC ABCDE    \n" +
-                                    "                  XXXXX YYYYYY      \n" +
-                                    "                   MMM 590019091      \n";
-                            BILL = BILL
-                                    + "-----------------------------------------------\n";
+                            BILL = "           GRADE (A) KENYA LIMITED         \n"
+                                    + "        P.O BOX 1349-00502      \n " +
+                                    "          Karen, Nairobi    \n" +
+                                    "                  RECEIPT     \n" +
+                                    "----------------------------------------------------------\n"+
+                                    "----------------------------------------------------------\n"+
+                                    "   " +item.getReceiptNo()+ "      \n" +
+                                    "   " +item.getmPesa()+ "   \n" +
+                                    "   " +item.getPayeeName()+ "   \n" +
+                                    "   " +item.getPhoneNumber()+ "   \n" +
+                                    "   " +item.getAuthorisedBy()+ "   \n" +
+                                    "   " +item.getDate()+ "   \n" +
+                                    "                        \n";
+                            BILL = BILL + "----------------------------------------------------------";
 
 
-                            BILL = BILL + String.format("%1$-10s %2$10s %3$13s %4$10s", "Item", "Qty", "Rate", "Totel");
+                            BILL = BILL + String.format("%1$-10s %2$30s ", "Particular", "Details" );
                             BILL = BILL + "\n";
                             BILL = BILL
-                                    + "-----------------------------------------------";
-                            BILL = BILL + "\n " + String.format("%1$-10s %2$10s %3$11s %4$10s", "item-001", "5", "10", "50.00");
-                            BILL = BILL + "\n " + String.format("%1$-10s %2$10s %3$11s %4$10s", "item-002", "10", "5", "50.00");
-                            BILL = BILL + "\n " + String.format("%1$-10s %2$10s %3$11s %4$10s", "item-003", "20", "10", "200.00");
-                            BILL = BILL + "\n " + String.format("%1$-10s %2$10s %3$11s %4$10s", "item-004", "50", "10", "500.00");
+                                    + "---------------------------------------------------------";
+                            BILL = BILL + "\n " + String.format("%1$-10s  ", item.getProducts().replace(",","      \n") );
+                            BILL = BILL + "\n " + String.format("%1$-10s  ",  item.getDescription());
+                            BILL =
+                            BILL = BILL
+                                    + "\n-------------------------------------------------------";
+                            BILL = BILL + "\n ";
+
+                            BILL = BILL + "    " + item.getPrice() + "\n";
+                            BILL =
 
                             BILL = BILL
-                                    + "\n-----------------------------------------------";
-                            BILL = BILL + "\n\n ";
-
-                            BILL = BILL + "                   Total Qty:" + "      " + "85" + "\n";
-                            BILL = BILL + "                   Total Value:" + "     " + "700.00" + "\n";
-
-                            BILL = BILL
-                                    + "-----------------------------------------------\n";
+                                    + "---------------------------------------------------------\n";
                             BILL = BILL + "\n\n ";
                             os.write(BILL.getBytes());
                             //This is printer specific code you can comment ==== > Start
@@ -173,7 +194,12 @@ public class PrintPreviewActivity extends AppCompatActivity implements Runnable 
                         }
                     }
                 };
+                Toast toast = Toast.makeText(mView.getContext(), "Printing...", Toast.LENGTH_LONG);
+                toast.setGravity(Gravity.CENTER, 0, 0);
+                toast.show();
+
                 t.start();
+
             }
         });
 
@@ -210,7 +236,7 @@ public class PrintPreviewActivity extends AppCompatActivity implements Runnable 
 
         switch (mRequestCode) {
             case REQUEST_CONNECT_DEVICE:
-                if (mResultCode == Activity.RESULT_OK) {
+                if (mResultCode == AppCompatActivity.RESULT_OK) {
                     Bundle mExtra = mDataIntent.getExtras();
                     String mDeviceAddress = mExtra.getString("DeviceAddress");
                     Log.v(TAG, "Coming incoming address " + mDeviceAddress);

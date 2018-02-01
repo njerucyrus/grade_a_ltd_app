@@ -198,7 +198,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
                                         editor.putString("payee_name", "Payee Name: " + item.getPayeeName());
                                         editor.putString("product_names", "Products : " + item.getProducts());
                                         editor.putString("description", "Description: " + item.getDescription());
-                                        editor.putString("total_price", "Total Price: " + item.getPrice());
+                                        editor.putString("total_price", "Total Price: KES " + item.getPrice());
                                         editor.putString("date", "Date Paid: " + item.getDate());
                                         editor.putString("mpesa", "Mpesa ID: " + item.getmPesa());
                                         editor.apply();
