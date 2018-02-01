@@ -108,6 +108,7 @@ public class SearchResultActivity extends AppCompatActivity {
                                         listItems.add(item);
                                     }
                                     adapter = new MyAdapter(listItems, getApplicationContext());
+                                    adapter.notifyDataSetChanged();
                                     recyclerView.setAdapter(adapter);
 
 
@@ -150,7 +151,7 @@ public class SearchResultActivity extends AppCompatActivity {
                         if (cacheEntry == null) {
                             cacheEntry = new Cache.Entry();
                         }
-                        final long cacheHitButRefreshed = 3 * 60 * 1000; // in 3 minutes cache will be hit, but also refreshed on background
+                        final long cacheHitButRefreshed =  1000; // in 3 minutes cache will be hit, but also refreshed on background
                         final long cacheExpired = 24 * 60 * 60 * 1000; // in 24 hours this cache entry expires completely
                         long now = System.currentTimeMillis();
                         final long softExpire = now + cacheHitButRefreshed;
@@ -193,7 +194,7 @@ public class SearchResultActivity extends AppCompatActivity {
                     return super.parseNetworkError(volleyError);
                 }
             };
-            jsonObjectRequest.setShouldCache(true);
+
             requestQueue.add(jsonObjectRequest);
 
             requestQueue.addRequestFinishedListener(new RequestQueue.RequestFinishedListener<Object>() {
