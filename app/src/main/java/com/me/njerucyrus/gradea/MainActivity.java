@@ -302,6 +302,27 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if(!isLoggedIn()){
+            startActivity(new Intent(this, WelcomeActivity.class));
+        }
+
+    }
+
+
+    public boolean isLoggedIn(){
+        SharedPreferences settings = getSharedPreferences("AUTH_DATA",
+                Context.MODE_PRIVATE);
+        String username = settings.getString("username", "");
+        if(!username.equals("")){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
 
 
     private void logout() {

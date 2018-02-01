@@ -143,6 +143,26 @@ public class PrintPreviewActivity extends AppCompatActivity implements Runnable 
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        if(!isLoggedIn()){
+            startActivity(new Intent(this, WelcomeActivity.class));
+        }
+
+    }
+
+    public boolean isLoggedIn(){
+        SharedPreferences settings = getSharedPreferences("AUTH_DATA",
+                Context.MODE_PRIVATE);
+        String username = settings.getString("username", "");
+        if(!username.equals("")){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    @Override
     public void onBackPressed() {
         try {
             if (mBluetoothSocket != null)

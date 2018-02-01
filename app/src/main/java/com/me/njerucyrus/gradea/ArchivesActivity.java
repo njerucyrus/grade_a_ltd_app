@@ -2,6 +2,8 @@ package com.me.njerucyrus.gradea;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.v7.app.ActionBar;
@@ -193,6 +195,26 @@ public class ArchivesActivity extends AppCompatActivity {
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
         if (networkInfo != null && networkInfo.isConnected()) {
             requestQueue.getCache().invalidate(URL, true);
+        }
+    }
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if(!isLoggedIn()){
+            startActivity(new Intent(this, WelcomeActivity.class));
+        }
+
+    }
+
+
+    public boolean isLoggedIn(){
+        SharedPreferences settings = getSharedPreferences("AUTH_DATA",
+                Context.MODE_PRIVATE);
+        String username = settings.getString("username", "");
+        if(!username.equals("")){
+            return true;
+        }else{
+            return false;
         }
     }
 }
