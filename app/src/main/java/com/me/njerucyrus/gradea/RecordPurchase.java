@@ -32,6 +32,8 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Random;
+
 public class RecordPurchase extends AppCompatActivity {
     RequestQueue requestQueue;
     Button btnRecordPurchase;
@@ -89,7 +91,7 @@ public class RecordPurchase extends AppCompatActivity {
                         jsonObject.put("phone_number", payeePhoneNumber);
                         jsonObject.put("payment_description", description);
                         jsonObject.put("authorised_by", username);
-                        jsonObject.put("receipt_no", "#123AUTO");
+                        jsonObject.put("receipt_no", generateReceipt());
                         jsonObject.put("vat_no", "#VAT_AUTO_123");
                         jsonObject.put("kra_pin_no", "P051617414C");
                         jsonObject.put("product_names", productNames);
@@ -283,6 +285,16 @@ public class RecordPurchase extends AppCompatActivity {
                 txtMpesaID.setError(null);
             }
         });
+    }
+    public  String generateReceipt(){
+        char[] chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789".toCharArray();
+        Random rnd = new Random();
+        StringBuilder sb = new StringBuilder((100000 + rnd.nextInt(900000000)) + "-");
+        for (int i = 0; i < 3; i++) {
+            sb.append(chars[rnd.nextInt(chars.length)]);
+        }
+
+        return sb.toString();
     }
 
 

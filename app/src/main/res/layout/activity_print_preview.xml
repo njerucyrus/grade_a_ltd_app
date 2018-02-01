@@ -17,6 +17,14 @@
 
         >
         <TextView
+            android:id="@+id/mCompanyName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Company Name: Grade (A) Kenya Ltd"
+            android:textColor="@color/colorBlack"
+            android:layout_margin="5dp"
+            />
+        <TextView
             android:id="@+id/mPayeeName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -93,14 +101,26 @@
             />
 
         <Button
-            android:id="@+id/btnPrint"
+            android:id="@+id/Scan"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Print"
+            android:layout_marginTop="20dp"
+            android:text="Select Printer"
             android:background="@xml/button_bg_lg"
-            android:textStyle="bold"
+            android:textColor="@color/colorWhite"
+            android:layout_margin="5dp"
+
+            />
+
+        <Button
+            android:id="@+id/mPrint"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Print Receipt"
+            android:background="@xml/button_bg_black_lg"
             android:textColor="#fff"
             android:layout_margin="5dp"
+
             />
     </LinearLayout>
     </ScrollView>

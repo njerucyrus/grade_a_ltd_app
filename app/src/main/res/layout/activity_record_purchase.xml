@@ -136,7 +136,7 @@
                 android:layout_height="wrap_content"
                 android:inputType="numberDecimal"
                 android:drawableStart="@drawable/ic_attach_money_black_32dp"
-                android:hint="Price (ksh)"
+                android:hint="Price (Ksh)"
                 android:background="@null"
                 />
         </android.support.design.widget.TextInputLayout>

@@ -80,17 +80,13 @@ public class SearchResultActivity extends AppCompatActivity {
         if (Intent.ACTION_SEARCH.equals(getIntent().getAction())) {
             String query = getIntent().getStringExtra(SearchManager.QUERY);
             //use the query to search your data somehow
-
-
             final String URL = "http://grade.hudutech.com/api_backend/api/purchases.php?query=" + query;
-
             progressDialog.setMessage("Loading...");
             progressDialog.show();
             JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, URL, null,
                     new Response.Listener<JSONObject>() {
                         @Override
                         public void onResponse(JSONObject response) {
-
                             try {
                                 if (response.getInt("status_code") == 200) {
                                     JSONArray data = response.optJSONArray("data");
@@ -121,8 +117,6 @@ public class SearchResultActivity extends AppCompatActivity {
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
-
-
                         }
                     },
                     new Response.ErrorListener() {
@@ -148,7 +142,7 @@ public class SearchResultActivity extends AppCompatActivity {
 
                         }
                     }
-            ){
+            ) {
                 @Override
                 protected Response<JSONObject> parseNetworkResponse(NetworkResponse response) {
                     try {
@@ -156,7 +150,7 @@ public class SearchResultActivity extends AppCompatActivity {
                         if (cacheEntry == null) {
                             cacheEntry = new Cache.Entry();
                         }
-                        final long cacheHitButRefreshed =  3*60*1000; // in 3 minutes cache will be hit, but also refreshed on background
+                        final long cacheHitButRefreshed = 3 * 60 * 1000; // in 3 minutes cache will be hit, but also refreshed on background
                         final long cacheExpired = 24 * 60 * 60 * 1000; // in 24 hours this cache entry expires completely
                         long now = System.currentTimeMillis();
                         final long softExpire = now + cacheHitButRefreshed;
@@ -205,13 +199,13 @@ public class SearchResultActivity extends AppCompatActivity {
             requestQueue.addRequestFinishedListener(new RequestQueue.RequestFinishedListener<Object>() {
                 @Override
                 public void onRequestFinished(Request<Object> request) {
-                    if(progressDialog.isShowing()){
+                    if (progressDialog.isShowing()) {
                         progressDialog.dismiss();
                     }
                 }
             });
 
-            ConnectivityManager connMgr = (ConnectivityManager)getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+            ConnectivityManager connMgr = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
             NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
             if (networkInfo != null && networkInfo.isConnected()) {
                 requestQueue.getCache().invalidate(URL, true);

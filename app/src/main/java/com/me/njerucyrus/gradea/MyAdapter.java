@@ -58,11 +58,13 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         final RecyclerItem itemList = listItems.get(position);
-        String title = "RECEIPT #" + itemList.getReceiptNo();
-        String description = "Payee: " + itemList.getPayeeName() + ", Ksh " + itemList.getPrice() + ".00" +
-                "\nDate " + itemList.getDate();
+        String title = "RECEIPT: " + itemList.getReceiptNo();
+        String description = "Payee: " + itemList.getPayeeName() + ", Ksh " + itemList.getPrice() +
+                "\nPayment Info: "+itemList.getDescription();
+
         holder.txtTitle.setText(title);
         holder.txtItemDescription.setText(description);
+        holder.txtDate.setText(itemList.getDate());
 
 
     }
@@ -76,6 +78,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         public TextView txtTitle;
         public TextView txtItemDescription;
         public TextView txtOptionDigit;
+        public TextView txtDate;
 
         ProgressDialog progressDialog;
         RequestQueue requestQueue;
@@ -85,8 +88,10 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
             txtTitle = (TextView) itemView.findViewById(R.id.txtTitle);
             txtItemDescription = (TextView) itemView.findViewById(R.id.txtItemDescription);
             txtOptionDigit = (TextView) itemView.findViewById(R.id.txtOptionDigit);
+            txtDate = (TextView)itemView.findViewById(R.id.txtDate);
             requestQueue = VolleyRequestSingleton.getInstance(itemView.getContext()).getRequestQueue();
             progressDialog = new ProgressDialog(itemView.getContext());
+
 
             txtOptionDigit.setOnClickListener(new View.OnClickListener() {
                 @Override
