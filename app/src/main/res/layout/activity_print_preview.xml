@@ -104,24 +104,14 @@
             android:id="@+id/Scan"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="Select Printer"
+            android:layout_marginTop="25dp"
+            android:text="Print Receipt Now"
             android:background="@xml/button_bg_lg"
             android:textColor="@color/colorWhite"
             android:layout_margin="5dp"
 
             />
 
-        <Button
-            android:id="@+id/mPrint"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Print Receipt"
-            android:background="@xml/button_bg_black_lg"
-            android:textColor="#fff"
-            android:layout_margin="5dp"
-
-            />
     </LinearLayout>
     </ScrollView>
 

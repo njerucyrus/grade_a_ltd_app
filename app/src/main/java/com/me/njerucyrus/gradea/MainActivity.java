@@ -209,7 +209,6 @@ public class MainActivity extends AppCompatActivity
                 return super.parseNetworkError(volleyError);
             }
         };
-        jsonObjectRequest.setShouldCache(true);
         requestQueue.add(jsonObjectRequest);
 
         requestQueue.addRequestFinishedListener(new RequestQueue.RequestFinishedListener<Object>() {

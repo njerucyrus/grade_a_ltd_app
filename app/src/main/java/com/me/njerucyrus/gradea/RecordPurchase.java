@@ -129,7 +129,7 @@ public class RecordPurchase extends AppCompatActivity {
                                                 editor.putString("payee_name", "Payee Name: " + data.getString("payee_name"));
                                                 editor.putString("product_names", "Products : " + data.getString("product_names"));
                                                 editor.putString("description", "Description: " + data.getString("payment_description"));
-                                                editor.putString("total_price", "Total Price: " + data.getString("amount_paid"));
+                                                editor.putString("total_price", "Total Price: KES" + data.getString("amount_paid"));
                                                 editor.putString("date", "Date Paid: " +data.getString("date_paid"));
                                                 editor.putString("mpesa", "Mpesa ID: " + data.getString("mpesa_code"));
                                                 editor.apply();

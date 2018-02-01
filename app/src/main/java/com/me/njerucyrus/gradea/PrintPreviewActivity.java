@@ -95,7 +95,7 @@ public class PrintPreviewActivity extends AppCompatActivity implements Runnable 
         item.setDescription(settings.getString("description", ""));
         item.setAuthorisedBy(settings.getString("authorised_by", ""));
         item.setReceiptNo(settings.getString("receipt_no", ""));
-        item.setProducts(settings.getString("product_names", ""));
+        item.setProducts(settings.getString("product_names", "").trim().replace(",","\n"));
         item.setPrice(settings.getString("total_price", ""));
         item.setDate(settings.getString("date", ""));
         item.setmPesa(settings.getString("mpesa", ""));
@@ -124,82 +124,6 @@ public class PrintPreviewActivity extends AppCompatActivity implements Runnable 
                                 REQUEST_CONNECT_DEVICE);
                     }
                 }
-            }
-        });
-        mPrint = (Button) findViewById(R.id.mPrint);
-        mPrint.setOnClickListener(new View.OnClickListener() {
-            public void onClick(final View mView) {
-                Thread t = new Thread() {
-                    public void run() {
-                        try {
-                            OutputStream os = mBluetoothSocket
-                                    .getOutputStream();
-                            String BILL = "";
-
-                            BILL = "           GRADE (A) KENYA LIMITED         \n"
-                                    + "        P.O BOX 1349-00502      \n " +
-                                    "          Karen, Nairobi    \n" +
-                                    "                  RECEIPT     \n" +
-                                    "----------------------------------------------------------\n"+
-                                    "----------------------------------------------------------\n"+
-                                    "   " +item.getReceiptNo()+ "      \n" +
-                                    "   " +item.getmPesa()+ "   \n" +
-                                    "   " +item.getPayeeName()+ "   \n" +
-                                    "   " +item.getPhoneNumber()+ "   \n" +
-                                    "   " +item.getAuthorisedBy()+ "   \n" +
-                                    "   " +item.getDate()+ "   \n" +
-                                    "                        \n";
-                            BILL = BILL + "----------------------------------------------------------";
-
-
-                            BILL = BILL + String.format("%1$-10s %2$30s ", "Particular", "Details" );
-                            BILL = BILL + "\n";
-                            BILL = BILL
-                                    + "---------------------------------------------------------";
-                            BILL = BILL + "\n " + String.format("%1$-10s  ", item.getProducts().replace(",","      \n") );
-                            BILL = BILL + "\n " + String.format("%1$-10s  ",  item.getDescription());
-                            BILL =
-                            BILL = BILL
-                                    + "\n-------------------------------------------------------";
-                            BILL = BILL + "\n ";
-
-                            BILL = BILL + "    " + item.getPrice() + "\n";
-                            BILL =
-
-                            BILL = BILL
-                                    + "---------------------------------------------------------\n";
-                            BILL = BILL + "\n\n ";
-                            os.write(BILL.getBytes());
-                            //This is printer specific code you can comment ==== > Start
-
-                            // Setting height
-                            int gs = 29;
-                            os.write(intToByteArray(gs));
-                            int h = 104;
-                            os.write(intToByteArray(h));
-                            int n = 162;
-                            os.write(intToByteArray(n));
-
-                            // Setting Width
-                            int gs_width = 29;
-                            os.write(intToByteArray(gs_width));
-                            int w = 119;
-                            os.write(intToByteArray(w));
-                            int n_width = 2;
-                            os.write(intToByteArray(n_width));
-
-
-                        } catch (Exception e) {
-                            Log.e("PrintPreviewActivity", "Exe ", e);
-                        }
-                    }
-                };
-                Toast toast = Toast.makeText(mView.getContext(), "Printing...", Toast.LENGTH_LONG);
-                toast.setGravity(Gravity.CENTER, 0, 0);
-                toast.show();
-
-                t.start();
-
             }
         });
 
@@ -253,7 +177,7 @@ public class PrintPreviewActivity extends AppCompatActivity implements Runnable 
                 break;
 
             case REQUEST_ENABLE_BT:
-                if (mResultCode == Activity.RESULT_OK) {
+                if (mResultCode == AppCompatActivity.RESULT_OK) {
                     ListPairedDevices();
                     Intent connectIntent = new Intent(PrintPreviewActivity.this,
                             DeviceListActivity.class);
@@ -303,7 +227,8 @@ public class PrintPreviewActivity extends AppCompatActivity implements Runnable 
         @Override
         public void handleMessage(Message msg) {
             mBluetoothConnectProgressDialog.dismiss();
-            Toast.makeText(PrintPreviewActivity.this, "DeviceConnected", Toast.LENGTH_SHORT).show();
+            Toast.makeText(PrintPreviewActivity.this, "Device Connected", Toast.LENGTH_SHORT).show();
+            doPrint();
         }
     };
 
@@ -326,6 +251,78 @@ public class PrintPreviewActivity extends AppCompatActivity implements Runnable 
     }
     // Enable the Up button
 
+    public void doPrint(){
+        Thread t = new Thread() {
+            public void run() {
+                try {
+                    OutputStream os = mBluetoothSocket
+                            .getOutputStream();
+                    String BILL = "";
+
+                    BILL =  "        GRADE (A) KENYA LIMITED\n"+
+                            "        P.O BOX 1349-00502\n" +
+                            "        Karen, Nairobi\n" +
+                            "        RECEIPT\n" +
+                            "----------------------------------------------------------\n"+
+                            "----------------------------------------------------------\n"+
+                            "   " +item.getReceiptNo()+ "      \n" +
+                            "   " +item.getmPesa()+ "   \n" +
+                            "   " +item.getPayeeName()+ "   \n" +
+                            "   " +item.getPhoneNumber()+ "   \n" +
+                            "   " +item.getAuthorisedBy()+ "   \n" +
+                            "   " +item.getDate()+ "   \n" +
+                            "                        \n";
+                    BILL = BILL + "----------------------------------------------------------";
+
+
+                    BILL = BILL + String.format("%1$-10s ", "Products" );
+                    BILL = BILL + "\n";
+                    BILL = BILL + "---------------------------------------------------------";
+                    BILL = BILL + "\n" + String.format("%1$-10s  ",item.getProducts().substring(11) );
+                    BILL = BILL + "\n";
+                    BILL = BILL + "---------------------------------------------------------";
+                    BILL = BILL +" \n"+ String.format("%1$-10s ", "Descriptions" );
+                    BILL = BILL + "\n";
+                    BILL = BILL + "---------------------------------------------------------";
+                    BILL = BILL + " \n" + String.format("%1$-10s",  item.getDescription().substring(13));
+                    BILL = BILL + "\n-------------------------------------------------------";
+                    BILL = BILL + "\n ";
+
+                    BILL = BILL + "    " +  String.format("%1$-10s",  item.getPrice());
+                    BILL = BILL + "\n-------------------------------------------------------";
+                    BILL = BILL + "\n\n ";
+                    os.write(BILL.getBytes());
+                    //This is printer specific code you can comment ==== > Start
+
+                    // Setting height
+                    int gs = 29;
+                    os.write(intToByteArray(gs));
+                    int h = 104;
+                    os.write(intToByteArray(h));
+                    int n = 162;
+                    os.write(intToByteArray(n));
+
+                    // Setting Width
+                    int gs_width = 29;
+                    os.write(intToByteArray(gs_width));
+                    int w = 119;
+                    os.write(intToByteArray(w));
+                    int n_width = 2;
+                    os.write(intToByteArray(n_width));
+
+
+
+                } catch (Exception e) {
+                    Log.e("PrintPreviewActivity", "Exe ", e);
+                }
+            }
+        };
+        Toast toast = Toast.makeText(getApplicationContext(), "Printing...", Toast.LENGTH_LONG);
+        toast.setGravity(Gravity.CENTER, 0, 0);
+        toast.show();
+
+        t.start();
+    }
 }
 
 
