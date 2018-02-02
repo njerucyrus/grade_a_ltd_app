@@ -118,7 +118,7 @@
                 android:inputType="textMultiLine"
                 android:drawableStart="@drawable/ic_add_shopping_cart_black_32dp"
                 android:background="@null"
-                android:hint="Products" />
+                android:hint="Products (comma separated)" />
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
