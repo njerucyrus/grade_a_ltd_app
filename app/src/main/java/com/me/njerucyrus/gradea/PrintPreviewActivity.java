@@ -1,7 +1,5 @@
 package com.me.njerucyrus.gradea;
 
-import android.app.Activity;
-import android.app.DownloadManager;
 import android.app.ProgressDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -21,21 +19,6 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.NetworkError;
-import com.android.volley.NoConnectionError;
-import com.android.volley.ParseError;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.ServerError;
-import com.android.volley.TimeoutError;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.ByteBuffer;
@@ -44,13 +27,12 @@ import java.util.UUID;
 
 public class PrintPreviewActivity extends AppCompatActivity implements Runnable {
 
-    TextView mPayeeName, mPhoneNumber, mDescription, mAuthorisedBy,
-            mReceiptNo, mProducts, mPrice, mDate, mPesa;
-
+    String BILL;
+    TextView printPreviewContent;
     protected static final String TAG = "TAG";
     private static final int REQUEST_CONNECT_DEVICE = 1;
     private static final int REQUEST_ENABLE_BT = 2;
-    Button mScan, mPrint;
+    Button mScan;
     RecyclerItem item;
     BluetoothAdapter mBluetoothAdapter;
     private UUID applicationUUID = UUID
@@ -62,33 +44,12 @@ public class PrintPreviewActivity extends AppCompatActivity implements Runnable 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_print_preview);
+        setContentView(R.layout.activity_new_print_preview);
         ActionBar ab = getSupportActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
         item = new RecyclerItem();
-
-        mPayeeName = (TextView) findViewById(R.id.mPayeeName);
-        mPhoneNumber = (TextView) findViewById(R.id.mPhoneNumber);
-        mDescription = (TextView) findViewById(R.id.mDescription);
-        mAuthorisedBy = (TextView) findViewById(R.id.mAuthorisedBy);
-        mReceiptNo = (TextView) findViewById(R.id.mReceiptNo);
-        mProducts = (TextView) findViewById(R.id.mProducts);
-        mPrice = (TextView) findViewById(R.id.mPrice);
-        mDate = (TextView) findViewById(R.id.mDate);
-        mPesa = (TextView) findViewById(R.id.mPesa);
         SharedPreferences settings = getSharedPreferences("PRINT_DATA",
                 Context.MODE_PRIVATE);
-
-
-        mPayeeName.setText(settings.getString("payee_name", ""));
-        mPhoneNumber.setText(settings.getString("phone_number", ""));
-        mDescription.setText(settings.getString("description", ""));
-        mAuthorisedBy.setText(settings.getString("authorised_by", ""));
-        mReceiptNo.setText(settings.getString("receipt_no", ""));
-        mProducts.setText(settings.getString("product_names", ""));
-        mPrice.setText(settings.getString("total_price", ""));
-        mDate.setText(settings.getString("date", ""));
-        mPesa.setText(settings.getString("mpesa", ""));
 
         item.setPayeeName(settings.getString("payee_name", ""));
         item.setPhoneNumber(settings.getString("phone_number", ""));
@@ -101,10 +62,44 @@ public class PrintPreviewActivity extends AppCompatActivity implements Runnable 
         item.setmPesa(settings.getString("mpesa", ""));
 
 
+        BILL =  "   GRADE (A) KENYA LIMITED\n"+
+                "   P.O BOX 1349-00502\n" +
+                "   Karen, Nairobi\n" +
+                "   PIN: P051617414C\n" +
+                "----------------------------------------------------------\n"+
+                "   RECEIPT\n" +
+                "----------------------------------------------------------\n"+
+                "   " +item.getReceiptNo()+ "      \n" +
+                "   " +item.getmPesa()+ "   \n" +
+                "   " +item.getPayeeName()+ "   \n" +
+                "   " +item.getPhoneNumber()+ "   \n" +
+                "   " +item.getAuthorisedBy()+ "   \n" +
+                "   " +item.getDate()+ "   \n" +
+                "                        \n";
+        BILL = BILL + "----------------------------------------------------------\n";
 
 
+        BILL = BILL + "   "+String.format("%1$-10s ", "Products" );
+        BILL = BILL + "\n";
+        BILL = BILL + "---------------------------------------------------------";
+        BILL = BILL + "   \n" + String.format("%1$-10s  ",item.getProducts().substring(11) );
+        BILL = BILL + "   \n";
+        BILL = BILL + "---------------------------------------------------------";
+        BILL = BILL +"   \n"+ String.format("%1$-10s ", "Descriptions" );
+        BILL = BILL + "   \n";
+        BILL = BILL + "---------------------------------------------------------";
+        BILL = BILL + "   \n" + String.format("%1$-10s",  item.getDescription().substring(13));
+        BILL = BILL + "\n-------------------------------------------------------";
+        BILL = BILL + "   \n";
 
-        mScan = (Button) findViewById(R.id.Scan);
+        BILL = BILL + "   " +  String.format("%1$-10s",  item.getPrice());
+        BILL = BILL + "\n-------------------------------------------------------";
+        BILL = BILL + "\n";
+
+        printPreviewContent = (TextView)findViewById(R.id.previewContent);
+        printPreviewContent.setText(BILL);
+
+        mScan = (Button) findViewById(R.id.Scan1);
         mScan.setOnClickListener(new View.OnClickListener() {
             public void onClick(View mView) {
                 mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
@@ -127,8 +122,7 @@ public class PrintPreviewActivity extends AppCompatActivity implements Runnable 
             }
         });
 
-
-    }// onCreate
+    }
 
     @Override
     protected void onDestroy() {
@@ -277,41 +271,6 @@ public class PrintPreviewActivity extends AppCompatActivity implements Runnable 
                 try {
                     OutputStream os = mBluetoothSocket
                             .getOutputStream();
-                    String BILL = "";
-
-                    BILL =  "        GRADE (A) KENYA LIMITED\n"+
-                            "        P.O BOX 1349-00502\n" +
-                            "        Karen, Nairobi\n" +
-                            "        PIN: P051617414C\n" +
-                            "        RECEIPT\n" +
-                            "----------------------------------------------------------\n"+
-                            "----------------------------------------------------------\n"+
-                            "   " +item.getReceiptNo()+ "      \n" +
-                            "   " +item.getmPesa()+ "   \n" +
-                            "   " +item.getPayeeName()+ "   \n" +
-                            "   " +item.getPhoneNumber()+ "   \n" +
-                            "   " +item.getAuthorisedBy()+ "   \n" +
-                            "   " +item.getDate()+ "   \n" +
-                            "                        \n";
-                    BILL = BILL + "----------------------------------------------------------";
-
-
-                    BILL = BILL + String.format("%1$-10s ", "Products" );
-                    BILL = BILL + "\n";
-                    BILL = BILL + "---------------------------------------------------------";
-                    BILL = BILL + "\n" + String.format("%1$-10s  ",item.getProducts().substring(11) );
-                    BILL = BILL + "\n";
-                    BILL = BILL + "---------------------------------------------------------";
-                    BILL = BILL +" \n"+ String.format("%1$-10s ", "Descriptions" );
-                    BILL = BILL + "\n";
-                    BILL = BILL + "---------------------------------------------------------";
-                    BILL = BILL + " \n" + String.format("%1$-10s",  item.getDescription().substring(13));
-                    BILL = BILL + "\n-------------------------------------------------------";
-                    BILL = BILL + "\n ";
-
-                    BILL = BILL + "    " +  String.format("%1$-10s",  item.getPrice());
-                    BILL = BILL + "\n-------------------------------------------------------";
-                    BILL = BILL + "\n\n ";
                     os.write(BILL.getBytes());
                     //This is printer specific code you can comment ==== > Start
 
@@ -345,5 +304,3 @@ public class PrintPreviewActivity extends AppCompatActivity implements Runnable 
         t.start();
     }
 }
-
-

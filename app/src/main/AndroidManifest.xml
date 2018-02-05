@@ -77,16 +77,8 @@
                 android:value="com.me.njerucyrus.gradea.WelcomeActivity" />
         </activity>
         <activity
-            android:name=".PrintPreviewActivity"
-            android:label="@string/print_preview_name">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.me.njerucyrus.gradea.MainActivity" />
-        </activity>
-        <activity android:name=".ArchivesActivity"
-            android:label="@string/archives_name"
-            >
-
+            android:name=".ArchivesActivity"
+            android:label="@string/archives_name">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.me.njerucyrus.gradea.MainActivity" />
@@ -96,7 +88,12 @@
             android:theme="@android:style/Theme.DeviceDefault.Dialog">
 
         </activity>
-
+        <activity android:name=".PrintPreviewActivity"
+            android:label="@string/print_preview_name">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.me.njerucyrus.gradea.MainActivity" />
+        </activity>
     </application>
 
 </manifest>

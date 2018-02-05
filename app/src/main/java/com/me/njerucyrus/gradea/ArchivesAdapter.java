@@ -6,6 +6,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -102,7 +104,7 @@ public class ArchivesAdapter extends RecyclerView.Adapter<ArchivesAdapter.ViewHo
                                 progressDialog.setMessage("Submitting");
                                 progressDialog.show();
                                 Config config = new Config();
-                                final String URL = config.getBASE_URL() +"/api/purchases.php?action=remove_archive&id="+item.getId();
+                                final String URL = config.getBASE_URL() +"/purchases.php?action=remove_archive&id="+item.getId();
                                 JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.PUT, URL, null,
                                         new Response.Listener<JSONObject>() {
                                             @Override
@@ -153,6 +155,8 @@ public class ArchivesAdapter extends RecyclerView.Adapter<ArchivesAdapter.ViewHo
                                         }
                                     }
                                 });
+
+
                             }
                         });
 
