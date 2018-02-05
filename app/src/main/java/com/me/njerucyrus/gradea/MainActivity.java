@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity
     MyAdapter adapter;
     List<RecyclerItem> listItems =new ArrayList<>();
     ProgressDialog progressDialog;
-    final String URL = "http://grade.hudutech.com/api_backend/api/purchases.php?filter=non";
+    private String URL;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+        URL = this.getResources().getString(R.string.base_url)+"/purchases.php?filter=non";
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(

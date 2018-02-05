@@ -43,13 +43,15 @@ public class ArchivesActivity extends AppCompatActivity {
     ArchivesAdapter adapter;
     List<RecyclerItem> listItems =new ArrayList<>();
     ProgressDialog progressDialog;
-    final String URL = "http://grade.hudutech.com/api_backend/api/purchases.php?filter=archives";
+
+    String URL;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_archives);
         ActionBar ab = getSupportActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
+       URL = this.getResources().getString(R.string.base_url)+"/purchases.php?filter=archives";
 
         recyclerView = (RecyclerView) findViewById(R.id.archivesRecyclerView);
         recyclerView.setHasFixedSize(true);

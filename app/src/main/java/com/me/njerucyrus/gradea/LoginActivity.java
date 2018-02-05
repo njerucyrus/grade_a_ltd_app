@@ -38,8 +38,7 @@ public class LoginActivity extends AppCompatActivity {
     TextView txtDontHaveAcc, txtForgotPassword;
     EditText txtAuthUsername, txtAuthPassword;
     ProgressDialog progressDialog;
-    boolean doubleBackToExitPressedOnce = false;
-    final String URL = "http://grade.hudutech.com/api_backend/api/users.php?action=login";
+    private String URL;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +51,7 @@ public class LoginActivity extends AppCompatActivity {
 
         ActionBar ab = getSupportActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
+        URL = this.getResources().getString(R.string.base_url)+"/users.php?action=login";
 
 
         btnAuthLogin = (Button) findViewById(R.id.btnAuthLogin);
@@ -125,6 +125,8 @@ public class LoginActivity extends AppCompatActivity {
                                         }
                                         SharedPreferences.Editor editor = settings.edit();
                                         editor.putString("username", username);
+                                        editor.putString("authorised_by", data.getString("fullname"));
+                                        editor.apply();
                                         editor.commit();
 
 

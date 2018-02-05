@@ -114,7 +114,7 @@ public class RegisterActivity extends AppCompatActivity {
                     jsonObject.put("email", email);
                     jsonObject.put("phone_number", phoneNumber);
                     jsonObject.put("password", password);
-                    final String URL = "http://grade.hudutech.com/api_backend/api/users.php?action=create_account";
+                    final String URL = getApplicationContext().getResources().getString(R.string.base_url)+"/users.php?action=create_account";
                     progressDialog.show();
 
                     JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, URL, jsonObject,
@@ -126,6 +126,8 @@ public class RegisterActivity extends AppCompatActivity {
 
                                             SharedPreferences settings = getSharedPreferences("AUTH_DATA",
                                                     Context.MODE_PRIVATE);
+
+                                            JSONObject data = response.getJSONObject("data");
 
                                             SharedPreferences.Editor editor = settings.edit();
 
@@ -139,6 +141,8 @@ public class RegisterActivity extends AppCompatActivity {
 
                                             editor.putString("username", username);
                                             editor.putString("user", fullName);
+                                            editor.putString("authorised_by", data.getString("fullname"));
+                                            editor.apply();
                                             editor.commit();
 
 

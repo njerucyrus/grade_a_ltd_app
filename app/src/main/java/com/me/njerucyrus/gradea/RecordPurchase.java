@@ -84,13 +84,13 @@ public class RecordPurchase extends AppCompatActivity {
 
                         SharedPreferences settings = getSharedPreferences("AUTH_DATA",
                                 Context.MODE_PRIVATE);
-                        final String username = settings.getString("username", "Default User");
+                        final String authorised_by = settings.getString("authorised_by", "Default User");
 
                         JSONObject jsonObject = new JSONObject();
                         jsonObject.put("payee_name", payeeName);
                         jsonObject.put("phone_number", payeePhoneNumber);
                         jsonObject.put("payment_description", description);
-                        jsonObject.put("authorised_by", username);
+                        jsonObject.put("authorised_by", authorised_by);
                         jsonObject.put("receipt_no", generateReceipt());
                         jsonObject.put("vat_no", "#VAT_AUTO_123");
                         jsonObject.put("kra_pin_no", "P051617414C");
@@ -103,7 +103,7 @@ public class RecordPurchase extends AppCompatActivity {
                         progressDialog.setMessage("Please Wait...");
                         progressDialog.show();
 
-                        final String URL = "http://grade.hudutech.com/api_backend/api/purchases.php";
+                        final String URL = getApplicationContext().getResources().getString(R.string.base_url)+"/purchases.php";
 
                         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, URL, jsonObject,
                                 new Response.Listener<JSONObject>() {

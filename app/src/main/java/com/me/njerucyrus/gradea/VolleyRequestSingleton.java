@@ -19,6 +19,7 @@ public class VolleyRequestSingleton {
     private ImageLoader mImageLoader;
     private static Context mCtx;
 
+
     private VolleyRequestSingleton(Context context) {
         mCtx = context;
         mRequestQueue = getRequestQueue();

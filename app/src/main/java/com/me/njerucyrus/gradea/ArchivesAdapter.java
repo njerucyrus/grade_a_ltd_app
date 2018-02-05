@@ -39,6 +39,7 @@ public class ArchivesAdapter extends RecyclerView.Adapter<ArchivesAdapter.ViewHo
     private List<RecyclerItem> listItems;
     private Context mContext;
 
+
     public ArchivesAdapter(List<RecyclerItem> listItems, Context mContext) {
         this.listItems = listItems;
         this.mContext = mContext;
@@ -100,7 +101,8 @@ public class ArchivesAdapter extends RecyclerView.Adapter<ArchivesAdapter.ViewHo
                             public void onClick(DialogInterface dialog, int which) {
                                 progressDialog.setMessage("Submitting");
                                 progressDialog.show();
-                                final String URL = "http://grade.hudutech.com/api_backend/api/purchases.php?action=remove_archive&id="+item.getId();
+                                Config config = new Config();
+                                final String URL = config.getBASE_URL() +"/api/purchases.php?action=remove_archive&id="+item.getId();
                                 JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.PUT, URL, null,
                                         new Response.Listener<JSONObject>() {
                                             @Override

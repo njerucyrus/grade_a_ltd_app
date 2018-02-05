@@ -282,6 +282,7 @@ public class PrintPreviewActivity extends AppCompatActivity implements Runnable 
                     BILL =  "        GRADE (A) KENYA LIMITED\n"+
                             "        P.O BOX 1349-00502\n" +
                             "        Karen, Nairobi\n" +
+                            "        PIN: P051617414C\n" +
                             "        RECEIPT\n" +
                             "----------------------------------------------------------\n"+
                             "----------------------------------------------------------\n"+

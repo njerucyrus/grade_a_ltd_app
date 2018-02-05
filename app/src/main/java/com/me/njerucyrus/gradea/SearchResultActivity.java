@@ -80,7 +80,7 @@ public class SearchResultActivity extends AppCompatActivity {
         if (Intent.ACTION_SEARCH.equals(getIntent().getAction())) {
             String query = getIntent().getStringExtra(SearchManager.QUERY);
             //use the query to search your data somehow
-            final String URL = "http://grade.hudutech.com/api_backend/api/purchases.php?query=" + query;
+            final String URL = getApplicationContext().getResources().getString(R.string.base_url)+"/purchases.php?query=" + query;
             progressDialog.setMessage("Loading...");
             progressDialog.show();
             JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, URL, null,
