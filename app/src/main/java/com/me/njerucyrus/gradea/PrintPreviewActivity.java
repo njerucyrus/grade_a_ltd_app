@@ -51,12 +51,13 @@ public class PrintPreviewActivity extends AppCompatActivity implements Runnable 
         SharedPreferences settings = getSharedPreferences("PRINT_DATA",
                 Context.MODE_PRIVATE);
 
+        String[] productNames = settings.getString("product_names", "").substring(11).split(",", -1);
+
         item.setPayeeName(settings.getString("payee_name", ""));
         item.setPhoneNumber(settings.getString("phone_number", ""));
         item.setDescription(settings.getString("description", ""));
         item.setAuthorisedBy(settings.getString("authorised_by", ""));
         item.setReceiptNo(settings.getString("receipt_no", ""));
-        item.setProducts(settings.getString("product_names", "").trim().replace(",","\n"));
         item.setPrice(settings.getString("total_price", ""));
         item.setDate(settings.getString("date", ""));
         item.setmPesa(settings.getString("mpesa", ""));
@@ -76,21 +77,23 @@ public class PrintPreviewActivity extends AppCompatActivity implements Runnable 
                 "   " +item.getAuthorisedBy()+ "\n" +
                 "   " +item.getDate()+ "\n" +
                 "";
-        BILL = BILL + "\t------------------------------------------------\n";
+        BILL = BILL + "\t---------------------------------------------\n";
 
 
         BILL = BILL + "\t"+String.format("%1$-10s ", "Products" );
-        BILL = BILL + "\n\t------------------------------------------------";
-        BILL = BILL + "\n\t" + String.format("%1$-10s ",item.getProducts().substring(11))+"\n";
-        BILL = BILL + "\t-------------------------------------------------";
+        BILL = BILL + "\n\t---------------------------------------------";
+        for(String name: productNames) {
+            BILL = BILL+"\t\n" + String.format("%1$-10s", "\t"+name.trim()) ;
+        }
+        BILL = BILL + "\n\t---------------------------------------------";
         BILL = BILL +"\n\t"+ String.format("%1$-10s ", "Descriptions" );
         BILL = BILL + "\n";
-        BILL = BILL + "\t------------------------------------------------";
-        BILL = BILL + "\n\t" + String.format("%1$-10s",  item.getDescription().substring(13));
-        BILL = BILL + "\n\t--------------------------------------------";
+        BILL = BILL + "\t---------------------------------------------";
+        BILL = BILL + "\t\n   " + String.format("%1$-10s",  item.getDescription().substring(13));
+        BILL = BILL + "\n\t---------------------------------------------";
 
         BILL = BILL + "\n\t" +  String.format("%1$-10s",  item.getPrice());
-        BILL = BILL + "\n\t--END OF LEGAL RECEIPT--";
+        BILL = BILL + "\n\n\t--END OF LEGAL RECEIPT--";
 
 
         printPreviewContent = (TextView)findViewById(R.id.previewContent);
@@ -272,21 +275,21 @@ public class PrintPreviewActivity extends AppCompatActivity implements Runnable 
                     os.write(data.getBytes());
                     //This is printer specific code you can comment ==== > Start
 
-////                     Setting height
-//                    int gs = 29;
-//                    os.write(intToByteArray(gs));
-//                    int h = 104;
-//                    os.write(intToByteArray(h));
-//                    int n = 162;
-//                    os.write(intToByteArray(n));
-//
-//                    // Setting Width
-//                    int gs_width = 29;
-//                    os.write(intToByteArray(gs_width));
-//                    int w = 119;
-//                    os.write(intToByteArray(w));
-//                    int n_width = 2;
-//                    os.write(intToByteArray(n_width));
+//                     Setting height
+                    int gs = 29;
+                    os.write(intToByteArray(gs));
+                    int h = 104;
+                    os.write(intToByteArray(h));
+                    int n = 162;
+                    os.write(intToByteArray(n));
+
+                    // Setting Width
+                    int gs_width = 29;
+                    os.write(intToByteArray(gs_width));
+                    int w = 119;
+                    os.write(intToByteArray(w));
+                    int n_width = 2;
+                    os.write(intToByteArray(n_width));
 
 
 
