@@ -36,13 +36,13 @@ public class PrintPreviewActivity extends AppCompatActivity implements Runnable 
     RecyclerItem item;
     BluetoothAdapter mBluetoothAdapter;
     private UUID applicationUUID = UUID
-            .fromString("00001101-0000-1000-8000-00805F9B34FB");
+            .fromString("00001101-0000-1000-8000-00805f9b34fb");
     private ProgressDialog mBluetoothConnectProgressDialog;
     private BluetoothSocket mBluetoothSocket;
     BluetoothDevice mBluetoothDevice;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_print_preview);
         ActionBar ab = getSupportActionBar();
@@ -66,35 +66,32 @@ public class PrintPreviewActivity extends AppCompatActivity implements Runnable 
                 "   P.O BOX 1349-00502\n" +
                 "   Karen, Nairobi\n" +
                 "   PIN: P051617414C\n" +
-                "----------------------------------------------------------\n"+
+                "   ---------------------------------------------\n"+
                 "   RECEIPT\n" +
-                "----------------------------------------------------------\n"+
-                "   " +item.getReceiptNo()+ "      \n" +
-                "   " +item.getmPesa()+ "   \n" +
-                "   " +item.getPayeeName()+ "   \n" +
-                "   " +item.getPhoneNumber()+ "   \n" +
-                "   " +item.getAuthorisedBy()+ "   \n" +
-                "   " +item.getDate()+ "   \n" +
-                "                        \n";
-        BILL = BILL + "----------------------------------------------------------\n";
+                "   ---------------------------------------------\n"+
+                "   " +item.getReceiptNo()+ "\n" +
+                "   " +item.getmPesa()+ "\n" +
+                "   " +item.getPayeeName()+ "\n" +
+                "   " +item.getPhoneNumber()+ "\n" +
+                "   " +item.getAuthorisedBy()+ "\n" +
+                "   " +item.getDate()+ "\n" +
+                "";
+        BILL = BILL + "\t------------------------------------------------\n";
 
 
-        BILL = BILL + "   "+String.format("%1$-10s ", "Products" );
+        BILL = BILL + "\t"+String.format("%1$-10s ", "Products" );
+        BILL = BILL + "\n\t------------------------------------------------";
+        BILL = BILL + "\n\t" + String.format("%1$-10s ",item.getProducts().substring(11))+"\n";
+        BILL = BILL + "\t-------------------------------------------------";
+        BILL = BILL +"\n\t"+ String.format("%1$-10s ", "Descriptions" );
         BILL = BILL + "\n";
-        BILL = BILL + "---------------------------------------------------------";
-        BILL = BILL + "   \n" + String.format("%1$-10s  ",item.getProducts().substring(11) );
-        BILL = BILL + "   \n";
-        BILL = BILL + "---------------------------------------------------------";
-        BILL = BILL +"   \n"+ String.format("%1$-10s ", "Descriptions" );
-        BILL = BILL + "   \n";
-        BILL = BILL + "---------------------------------------------------------";
-        BILL = BILL + "   \n" + String.format("%1$-10s",  item.getDescription().substring(13));
-        BILL = BILL + "\n-------------------------------------------------------";
-        BILL = BILL + "   \n";
+        BILL = BILL + "\t------------------------------------------------";
+        BILL = BILL + "\n\t" + String.format("%1$-10s",  item.getDescription().substring(13));
+        BILL = BILL + "\n\t--------------------------------------------";
 
-        BILL = BILL + "   " +  String.format("%1$-10s",  item.getPrice());
-        BILL = BILL + "\n-------------------------------------------------------";
-        BILL = BILL + "\n";
+        BILL = BILL + "\n\t" +  String.format("%1$-10s",  item.getPrice());
+        BILL = BILL + "\n\t--END OF LEGAL RECEIPT--";
+
 
         printPreviewContent = (TextView)findViewById(R.id.previewContent);
         printPreviewContent.setText(BILL);
@@ -126,7 +123,6 @@ public class PrintPreviewActivity extends AppCompatActivity implements Runnable 
 
     @Override
     protected void onDestroy() {
-        // TODO Auto-generated method stub
         super.onDestroy();
         try {
             if (mBluetoothSocket != null)
@@ -271,24 +267,26 @@ public class PrintPreviewActivity extends AppCompatActivity implements Runnable 
                 try {
                     OutputStream os = mBluetoothSocket
                             .getOutputStream();
-                    os.write(BILL.getBytes());
+                    final String data = new String(BILL.getBytes(), "US-ASCII");
+
+                    os.write(data.getBytes());
                     //This is printer specific code you can comment ==== > Start
 
-                    // Setting height
-                    int gs = 29;
-                    os.write(intToByteArray(gs));
-                    int h = 104;
-                    os.write(intToByteArray(h));
-                    int n = 162;
-                    os.write(intToByteArray(n));
-
-                    // Setting Width
-                    int gs_width = 29;
-                    os.write(intToByteArray(gs_width));
-                    int w = 119;
-                    os.write(intToByteArray(w));
-                    int n_width = 2;
-                    os.write(intToByteArray(n_width));
+////                     Setting height
+//                    int gs = 29;
+//                    os.write(intToByteArray(gs));
+//                    int h = 104;
+//                    os.write(intToByteArray(h));
+//                    int n = 162;
+//                    os.write(intToByteArray(n));
+//
+//                    // Setting Width
+//                    int gs_width = 29;
+//                    os.write(intToByteArray(gs_width));
+//                    int w = 119;
+//                    os.write(intToByteArray(w));
+//                    int n_width = 2;
+//                    os.write(intToByteArray(n_width));
 
 
 
