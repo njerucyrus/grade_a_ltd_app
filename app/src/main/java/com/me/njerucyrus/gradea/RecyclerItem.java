@@ -18,12 +18,13 @@ public class RecyclerItem {
     private String date;
     private int isArchived;
     private String mPesa;
+    private String invoiceNo;
 
     public RecyclerItem(){}
 
     public RecyclerItem(String receiptNo, String vatNo, String kraPin,
                         String payeeName, String products, String description,
-                        String price, String date) {
+                        String price, String date, String invoiceNo) {
         this.receiptNo = receiptNo;
         this.vatNo = vatNo;
         this.kraPin = kraPin;
@@ -32,6 +33,7 @@ public class RecyclerItem {
         this.description = description;
         this.price = price;
         this.date = date;
+        this.invoiceNo = invoiceNo;
     }
 
     public int getId() {
@@ -136,5 +138,13 @@ public class RecyclerItem {
 
     public void setmPesa(String mPesa) {
         this.mPesa = mPesa;
+    }
+
+    public String getInvoiceNo() {
+        return invoiceNo;
+    }
+
+    public void setInvoiceNo(String invoiceNo) {
+        this.invoiceNo = invoiceNo;
     }
 }

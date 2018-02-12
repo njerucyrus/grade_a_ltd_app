@@ -1,7 +1,9 @@
 package com.me.njerucyrus.gradea;
 
+import android.app.DatePickerDialog;
 import android.app.DownloadManager;
 import android.app.ProgressDialog;
+import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -12,8 +14,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -32,16 +36,22 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Locale;
 import java.util.Random;
 
 public class RecordPurchase extends AppCompatActivity {
     RequestQueue requestQueue;
     Button btnRecordPurchase;
     EditText txtPayeeName, txtPayeePhoneNumber, txtDescription,
-            txtProductNames, txtPrice, txtMpesaID;
+            txtProductNames, txtPrice, txtMpesaID, txtInvoiceRefNo;
 
-
+    TextView txtDate;
     ProgressDialog progressDialog;
+
+    private SimpleDateFormat mSimpleDateFormat;
+    private Calendar mCalendar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +70,13 @@ public class RecordPurchase extends AppCompatActivity {
         txtProductNames = (EditText) findViewById(R.id.txtProductNames);
         txtPrice = (EditText) findViewById(R.id.txtPrice);
         txtMpesaID = (EditText) findViewById(R.id.txtMpesaID);
+        txtInvoiceRefNo = (EditText)findViewById(R.id.txtInvoiceRefNo);
         watchInput();
+
+        mSimpleDateFormat = new SimpleDateFormat("MM/dd/yyyy h:mm a", Locale.getDefault());
+
+        txtDate = (TextView)findViewById(R.id.txtDateRecorded);
+        txtDate.setOnClickListener(textListener);
         requestQueue = VolleyRequestSingleton.getInstance(this.getApplicationContext()).getRequestQueue();
 
         btnRecordPurchase = (Button) findViewById(R.id.btnRecordPurchase);
@@ -68,7 +84,8 @@ public class RecordPurchase extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                final String payeeName, payeePhoneNumber, description, mpesaID, productNames, price;
+                final String payeeName, payeePhoneNumber, description, mpesaID,
+                        productNames, price, datePaid, invoiceNo;
 
                 payeeName = txtPayeeName.getText().toString().trim();
                 payeePhoneNumber = txtPayeePhoneNumber.getText().toString().trim();
@@ -77,6 +94,8 @@ public class RecordPurchase extends AppCompatActivity {
                 productNames = txtProductNames.getText().toString().trim();
                 price = txtPrice.getText().toString().trim();
                 mpesaID = txtMpesaID.getText().toString().trim();
+                datePaid = txtDate.getText().toString().trim();
+                invoiceNo = txtInvoiceRefNo.getText().toString().trim();
 
                 if (validate()) {
                     //do post
@@ -98,6 +117,8 @@ public class RecordPurchase extends AppCompatActivity {
                         jsonObject.put("amount_paid", Float.parseFloat(price));
                         jsonObject.put("amount_paid", Float.parseFloat(price));
                         jsonObject.put("mpesa_code", mpesaID);
+                        jsonObject.put("date_paid", datePaid);
+                        jsonObject.put("invoice_no", invoiceNo);
 
                         progressDialog.setTitle("Submitting");
                         progressDialog.setMessage("Please Wait...");
@@ -132,6 +153,7 @@ public class RecordPurchase extends AppCompatActivity {
                                                 editor.putString("total_price", "Total Price: KES" + data.getString("amount_paid"));
                                                 editor.putString("date", "Date: " +data.getString("date_paid"));
                                                 editor.putString("mpesa", "Mpesa ID: " + data.getString("mpesa_code"));
+                                                editor.putString("invoice_no", "Invoice Ref No : " + data.getString("invoice_no"));
                                                 editor.apply();
                                                 editor.commit();
 
@@ -253,6 +275,13 @@ public class RecordPurchase extends AppCompatActivity {
             txtMpesaID.setError(null);
         }
 
+        if (txtInvoiceRefNo.getText().toString().trim().isEmpty()){
+            txtInvoiceRefNo.setError("This field is required");
+            valid = false;
+        }else{
+            txtMpesaID.setError(null);
+        }
+
         if (txtProductNames.getText().toString().isEmpty()){
             txtProductNames.setError("This field is required");
             valid = false;
@@ -267,6 +296,10 @@ public class RecordPurchase extends AppCompatActivity {
             txtPrice.setError(null);
         }
 
+        if(txtDate.getText().toString().equals("Select Date")){
+            valid = false;
+            Toast.makeText(RecordPurchase.this, "Select date to continue", Toast.LENGTH_SHORT).show();
+        }
         return valid;
 
     }
@@ -305,6 +338,13 @@ public class RecordPurchase extends AppCompatActivity {
                 txtMpesaID.setError(null);
             }
         });
+
+        txtInvoiceRefNo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                txtInvoiceRefNo.setError(null);
+            }
+        });
     }
     public  String generateReceipt(){
         char[] chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789".toCharArray();
@@ -316,6 +356,38 @@ public class RecordPurchase extends AppCompatActivity {
 
         return sb.toString();
     }
+
+
+    /* Define the onClickListener, and start the DatePickerDialog with users current time */
+    private final View.OnClickListener textListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            mCalendar = Calendar.getInstance();
+            new DatePickerDialog(RecordPurchase.this, mDateDataSet, mCalendar.get(Calendar.YEAR),
+                    mCalendar.get(Calendar.MONTH), mCalendar.get(Calendar.DAY_OF_MONTH)).show();
+        }
+    };
+
+    /* After user decided on a date, store those in our calendar variable and then start the TimePickerDialog immediately */
+    private final DatePickerDialog.OnDateSetListener mDateDataSet = new DatePickerDialog.OnDateSetListener() {
+        @Override
+        public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+            mCalendar.set(Calendar.YEAR, year);
+            mCalendar.set(Calendar.MONTH, monthOfYear);
+            mCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+            new TimePickerDialog(RecordPurchase.this, mTimeDataSet, mCalendar.get(Calendar.HOUR_OF_DAY), mCalendar.get(Calendar.MINUTE), false).show();
+        }
+    };
+
+    /* After user decided on a time, save them into our calendar instance, and now parse what our calendar has into the TextView */
+    private final TimePickerDialog.OnTimeSetListener mTimeDataSet = new TimePickerDialog.OnTimeSetListener() {
+        @Override
+        public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+            mCalendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
+            mCalendar.set(Calendar.MINUTE, minute);
+            txtDate.setText(mSimpleDateFormat.format(mCalendar.getTime()));
+        }
+    };
 
 
 }

@@ -61,39 +61,30 @@ public class PrintPreviewActivity extends AppCompatActivity implements Runnable 
         item.setPrice(settings.getString("total_price", ""));
         item.setDate(settings.getString("date", ""));
         item.setmPesa(settings.getString("mpesa", ""));
+        item.setInvoiceNo(settings.getString("invoice_no", ""));
 
 
         BILL =  "   GRADE (A) KENYA LIMITED\n"+
-                "   P.O BOX 1349-00502\n" +
+                "   P.O BOX 1340-00502\n" +
                 "   Karen, Nairobi\n" +
                 "   PIN: P051617414C\n" +
-                "   ---------------------------------------------\n"+
                 "   RECEIPT\n" +
-                "   ---------------------------------------------\n"+
                 "   " +item.getReceiptNo()+ "\n" +
+                "   " +item.getInvoiceNo()+ "\n" +
                 "   " +item.getmPesa()+ "\n" +
                 "   " +item.getPayeeName()+ "\n" +
                 "   " +item.getPhoneNumber()+ "\n" +
                 "   " +item.getAuthorisedBy()+ "\n" +
-                "   " +item.getDate()+ "\n" +
-                "";
-        BILL = BILL + "\t---------------------------------------------\n";
+                "   " +item.getDate();
 
-
-        BILL = BILL + "\t"+String.format("%1$-10s ", "Products" );
-        BILL = BILL + "\n\t---------------------------------------------";
+        BILL = BILL +"\n\t"+String.format("%1$-10s ", "Products" );
         for(String name: productNames) {
-            BILL = BILL+"\t\n" + String.format("%1$-10s", "\t"+name.trim()) ;
+            BILL = BILL +"\n"+ String.format("%1$-10s", "\t"+name.trim()) ;
         }
-        BILL = BILL + "\n\t---------------------------------------------";
         BILL = BILL +"\n\t"+ String.format("%1$-10s ", "Descriptions" );
-        BILL = BILL + "\n";
-        BILL = BILL + "\t---------------------------------------------";
-        BILL = BILL + "\t\n   " + String.format("%1$-10s",  item.getDescription().substring(13));
-        BILL = BILL + "\n\t---------------------------------------------";
-
+        BILL = BILL + "\n\t" + String.format("%1$-10s",  item.getDescription().substring(13));
         BILL = BILL + "\n\t" +  String.format("%1$-10s",  item.getPrice());
-        BILL = BILL + "\n\n\t--END OF LEGAL RECEIPT--";
+        BILL = BILL + "\n\tEND OF LEGAL RECEIPT";
 
 
         printPreviewContent = (TextView)findViewById(R.id.previewContent);

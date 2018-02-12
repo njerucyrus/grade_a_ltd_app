@@ -96,5 +96,4 @@
                 android:value="com.me.njerucyrus.gradea.MainActivity" />
         </activity>
     </application>
-
 </manifest>

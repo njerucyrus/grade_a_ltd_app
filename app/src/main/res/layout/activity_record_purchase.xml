@@ -80,6 +80,28 @@
                 />
         </android.support.design.widget.TextInputLayout>
 
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@xml/edit_text_bg_lg"
+            android:padding="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            >
+
+            <EditText
+                android:id="@+id/txtInvoiceRefNo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textCapCharacters"
+                android:drawableStart="@drawable/ic_dialpad_black_32dp"
+                android:hint="Invoice Ref No."
+                android:background="@null"
+                />
+        </android.support.design.widget.TextInputLayout>
+
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -136,11 +158,29 @@
                 android:layout_height="wrap_content"
                 android:inputType="numberDecimal"
                 android:drawableStart="@drawable/ic_attach_money_black_32dp"
-                android:hint="Price (Ksh)"
+                android:hint="Cost (Ksh)"
                 android:background="@null"
                 />
+
+
         </android.support.design.widget.TextInputLayout>
 
+        <TextView
+            android:id="@+id/txtDateRecorded"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Select Date"
+            android:drawableStart="@drawable/ic_access_time_black_32dp"
+            android:layout_marginTop="10dp"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:paddingBottom="10dp"
+            android:background="@xml/edit_text_bg_lg"
+            android:padding="10dp"
+            android:drawablePadding="5dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            />
 
 
         <Button

@@ -199,6 +199,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
                                         editor.putString("total_price", "Total Price: KES " + item.getPrice());
                                         editor.putString("date", "Date: " + item.getDate());
                                         editor.putString("mpesa", "Mpesa ID: " + item.getmPesa());
+                                        editor.putString("invoice_no", "Invoice Ref No : " + item.getInvoiceNo());
                                         editor.apply();
                                         editor.commit();
 
