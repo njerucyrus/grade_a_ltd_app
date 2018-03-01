@@ -30,4 +30,5 @@
         completions."
     </string>
     <string name="base_url">http://grade.hudutech.com/api_backend/api</string>
+    <string name="manage_users">Manage Users</string>
 </resources>

@@ -31,6 +31,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by njerucyrus on 1/25/18.
@@ -187,6 +188,8 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 
                                         RecyclerItem item = listItems.get(getAdapterPosition());
                                         editor.putInt("id", item.getId());
+                                        double price = Double.parseDouble(item.getPrice());
+
 
                                         editor.putString("receipt_no", "Receipt No: " + item.getReceiptNo());
                                         editor.putString("phone_number", "Phone Number: " + item.getPhoneNumber());
@@ -196,7 +199,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
                                         editor.putString("payee_name", "Payee Name: " + item.getPayeeName());
                                         editor.putString("product_names", "Products : " + item.getProducts());
                                         editor.putString("description", "Description: " + item.getDescription());
-                                        editor.putString("total_price", "Total Price: KES " + item.getPrice());
+                                        editor.putString("total_price", "Total Cost: KES " +String.format(Locale.ENGLISH,"%,.2f",price));
                                         editor.putString("date", "Date: " + item.getDate());
                                         editor.putString("mpesa", "Mpesa ID: " + item.getmPesa());
                                         editor.putString("invoice_no", "Invoice Ref No : " + item.getInvoiceNo());

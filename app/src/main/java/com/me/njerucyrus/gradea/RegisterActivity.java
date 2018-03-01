@@ -3,14 +3,11 @@ package com.me.njerucyrus.gradea;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-
 import android.content.SharedPreferences;
-import android.os.Handler;
+import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
-
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -31,6 +28,8 @@ import com.android.volley.toolbox.JsonObjectRequest;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.Date;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -114,6 +113,9 @@ public class RegisterActivity extends AppCompatActivity {
                     jsonObject.put("email", email);
                     jsonObject.put("phone_number", phoneNumber);
                     jsonObject.put("password", password);
+                    jsonObject.put("status", 0);
+                    jsonObject.put("user_level", 0);
+                    jsonObject.put("date_joined", new Date().toString());
                     final String URL = getApplicationContext().getResources().getString(R.string.base_url)+"/users.php?action=create_account";
                     progressDialog.show();
 
@@ -147,7 +149,7 @@ public class RegisterActivity extends AppCompatActivity {
 
 
                                             Toast.makeText(getApplicationContext(), response.getString("message"), Toast.LENGTH_LONG).show();
-                                            startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                                            startActivity(new Intent(getApplicationContext(), LoginActivity.class));
 
                                         }
                                         if (response.getInt("status_code") == 500) {

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="wrap_content">
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <RelativeLayout
+            android:layout_margin="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/txtUserFullName"
+                android:text="Users Full Name"
+                android:textColor="@color/colorBlack"
+                android:textAppearance="?android:textAppearanceMedium"
+                />
+            <LinearLayout
+                android:id="@+id/user_detail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_below="@+id/txtUserFullName"
+                >
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/txtUserDetail"
+                    android:text="About username phone and email"
+                    android:textColor="@color/colorBlack"
+                    android:textAppearance="?android:textAppearanceSmall"
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/user_detail"
+                android:id="@+id/date_layout"
+                >
+                <TextView
+                    android:id="@+id/txtDateCreated"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:text="Date Created"
+                    android:textColor="@color/colorBlack"
+                    android:gravity="start"
+                    android:textAppearance="?android:textAppearanceSmall"
+                    />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_below="@+id/date_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                >
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Authorise"
+                    android:id="@+id/btn_authorise_user"
+                    android:padding="15dp"
+                    android:layout_margin="5dp"
+                    android:textColor="@color/colorBlack"
+
+                    />
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/btn_block_user"
+                    android:text="Block User"
+                    android:padding="15dp"
+                    android:layout_margin="5dp"
+                    android:textColor="@color/colorBlack"
+
+                    />
+            </LinearLayout>
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+
+</RelativeLayout>

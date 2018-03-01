@@ -19,6 +19,10 @@
             android:icon="@drawable/ic_archive_black_24dp"
             android:title="Archives" />
 
+        <item android:id="@+id/nav_manage_users"
+            android:icon="@drawable/ic_supervisor_account_black_24dp"
+            android:title="Manage Users" />
+
         <item
             android:id="@+id/nav_logout"
             android:icon="@drawable/ic_power_settings_new_black_24dp"

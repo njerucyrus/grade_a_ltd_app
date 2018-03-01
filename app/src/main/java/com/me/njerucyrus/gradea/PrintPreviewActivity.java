@@ -64,6 +64,7 @@ public class PrintPreviewActivity extends AppCompatActivity implements Runnable 
         item.setInvoiceNo(settings.getString("invoice_no", ""));
 
 
+
         BILL =  "   GRADE (A) KENYA LIMITED\n"+
                 "   P.O BOX 1340-00502\n" +
                 "   Karen, Nairobi\n" +

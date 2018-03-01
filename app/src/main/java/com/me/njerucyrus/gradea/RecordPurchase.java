@@ -1,17 +1,14 @@
 package com.me.njerucyrus.gradea;
 
 import android.app.DatePickerDialog;
-import android.app.DownloadManager;
 import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Handler;
+import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -60,6 +57,7 @@ public class RecordPurchase extends AppCompatActivity {
         ActionBar ab = getSupportActionBar();
         // Enable the Up button
         ab.setDisplayHomeAsUpEnabled(true);
+        requestQueue = VolleyRequestSingleton.getInstance(this.getApplicationContext()).getRequestQueue();
 
         progressDialog = new ProgressDialog(this);
 
@@ -77,7 +75,6 @@ public class RecordPurchase extends AppCompatActivity {
 
         txtDate = (TextView)findViewById(R.id.txtDateRecorded);
         txtDate.setOnClickListener(textListener);
-        requestQueue = VolleyRequestSingleton.getInstance(this.getApplicationContext()).getRequestQueue();
 
         btnRecordPurchase = (Button) findViewById(R.id.btnRecordPurchase);
         btnRecordPurchase.setOnClickListener(new View.OnClickListener() {
@@ -95,6 +92,7 @@ public class RecordPurchase extends AppCompatActivity {
                 price = txtPrice.getText().toString().trim();
                 mpesaID = txtMpesaID.getText().toString().trim();
                 datePaid = txtDate.getText().toString().trim();
+
                 invoiceNo = txtInvoiceRefNo.getText().toString().trim();
 
                 if (validate()) {
@@ -142,6 +140,8 @@ public class RecordPurchase extends AppCompatActivity {
 
                                                 SharedPreferences.Editor editor = settings.edit();
 
+                                                double cost = Double.parseDouble(data.getString("amount_paid"));
+
                                                 editor.putString("receipt_no", "Receipt No: " +data.getString("receipt_no"));
                                                 editor.putString("phone_number", "Phone Number: " + data.getString("phone_number"));
                                                 editor.putString("authorised_by", "Authorised By: " +data.getString("authorised_by"));
@@ -150,7 +150,7 @@ public class RecordPurchase extends AppCompatActivity {
                                                 editor.putString("payee_name", "Payee Name: " + data.getString("payee_name"));
                                                 editor.putString("product_names", "Products : " + data.getString("product_names"));
                                                 editor.putString("description", "Description: " + data.getString("payment_description"));
-                                                editor.putString("total_price", "Total Price: KES" + data.getString("amount_paid"));
+                                                editor.putString("total_price", "Total Cost: KES " + String.format(Locale.ENGLISH, "%,.2f",cost));
                                                 editor.putString("date", "Date: " +data.getString("date_paid"));
                                                 editor.putString("mpesa", "Mpesa ID: " + data.getString("mpesa_code"));
                                                 editor.putString("invoice_no", "Invoice Ref No : " + data.getString("invoice_no"));

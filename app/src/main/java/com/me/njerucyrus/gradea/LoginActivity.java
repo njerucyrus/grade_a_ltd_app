@@ -109,7 +109,6 @@ public class LoginActivity extends AppCompatActivity {
                                 try {
                                     if (response.getInt("status_code") == 201) {
 
-                                        Toast.makeText(getApplicationContext(), response.getString("message"), Toast.LENGTH_LONG).show();
 
                                         SharedPreferences settings = getSharedPreferences("AUTH_DATA",
                                                 Context.MODE_PRIVATE);
@@ -123,14 +122,27 @@ public class LoginActivity extends AppCompatActivity {
                                         } else {
                                             username = data.getString("email");
                                         }
-                                        SharedPreferences.Editor editor = settings.edit();
-                                        editor.putString("username", username);
-                                        editor.putString("authorised_by", data.getString("fullname"));
-                                        editor.apply();
-                                        editor.commit();
 
 
-                                        startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                                        if (data.getInt("status") == 1) {
+
+                                            SharedPreferences.Editor editor = settings.edit();
+                                            editor.putInt("user_level", data.getInt("user_level"));
+                                            editor.putInt("userId", data.getInt("id"));
+                                            editor.putInt("status", data.getInt("status"));
+                                            editor.putString("username", username);
+                                            editor.putString("authorised_by", data.getString("fullname"));
+                                            editor.apply();
+                                            editor.commit();
+
+                                            Toast.makeText(getApplicationContext(), response.getString("message"), Toast.LENGTH_LONG).show();
+                                            startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                                            finish();
+
+                                        }else {
+                                            Toast.makeText(getApplicationContext(), "Your account is NOT ACTIVE please contact admin for activation", Toast.LENGTH_LONG).show();
+                                        }
+
                                     } else if (response.getInt("status_code") == 500) {
 
                                         Toast.makeText(getApplicationContext(), response.getString("message"), Toast.LENGTH_LONG).show();

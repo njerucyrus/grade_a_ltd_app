@@ -12,6 +12,7 @@
     <uses-permission android:name="android.permission.BLUETOOTH_PRIVILEGED" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.INSTALL_SHORTCUT" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
 
     <application
         android:allowBackup="true"
@@ -87,13 +88,21 @@
         <activity
             android:name=".DeviceListActivity"
             android:theme="@android:style/Theme.DeviceDefault.Dialog">
-
         </activity>
-        <activity android:name=".PrintPreviewActivity"
+        <activity
+            android:name=".PrintPreviewActivity"
             android:label="@string/print_preview_name">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.me.njerucyrus.gradea.MainActivity" />
         </activity>
+        <activity android:name=".ManageUsersActivity"
+            android:label="@string/manage_users"
+            >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.me.njerucyrus.gradea.MainActivity" />
+        </activity>
     </application>
+
 </manifest>

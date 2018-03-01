@@ -2,7 +2,6 @@ package com.me.njerucyrus.gradea;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -15,9 +14,7 @@ import android.support.v7.widget.RecyclerView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
-import com.android.volley.Cache;
 import com.android.volley.NetworkError;
-import com.android.volley.NetworkResponse;
 import com.android.volley.NoConnectionError;
 import com.android.volley.ParseError;
 import com.android.volley.Request;
@@ -26,37 +23,39 @@ import com.android.volley.Response;
 import com.android.volley.ServerError;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.JsonObjectRequest;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ArchivesActivity extends AppCompatActivity {
+public class ManageUsersActivity extends AppCompatActivity {
     RequestQueue requestQueue;
     RecyclerView recyclerView;
-    ArchivesAdapter adapter;
-    List<RecyclerItem> listItems =new ArrayList<>();
+    UsersAdapter adapter;
+    List<User> usersList =new ArrayList<>();
     ProgressDialog progressDialog;
-
     String URL;
+    private int USER_ID;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_archives);
+        setContentView(R.layout.activity_manage_users);
+
         ActionBar ab = getSupportActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
-        URL = this.getResources().getString(R.string.base_url)+"/purchases.php?filter=archives";
+        URL = this.getResources().getString(R.string.base_url)+"/users.php";
 
-        recyclerView = (RecyclerView) findViewById(R.id.archivesRecyclerView);
+        recyclerView = (RecyclerView) findViewById(R.id.users_list_recycler_view);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
+        SharedPreferences settings = this.getSharedPreferences("AUTH_DATA",
+                Context.MODE_PRIVATE);
+        USER_ID = settings.getInt("userId", 0);
 
         progressDialog = new ProgressDialog(this);
 
@@ -76,25 +75,23 @@ public class ArchivesActivity extends AppCompatActivity {
                                 for (int i = 0; i < data.length(); i++) {
                                     JSONObject object = data.optJSONObject(i);
 
-                                    RecyclerItem item = new RecyclerItem();
-                                    item.setId(object.getInt("id"));
-                                    item.setReceiptNo(object.getString("receipt_no"));
-                                    item.setVatNo(object.getString("vat_no"));
-                                    item.setKraPin(object.getString("kra_pin_no"));
-                                    item.setPayeeName(object.getString("payee_name"));
-                                    item.setProducts(object.getString("product_names"));
-                                    item.setDescription(object.getString("payment_description"));
-                                    item.setPrice(object.getString("amount_paid"));
-                                    item.setPhoneNumber(object.getString("phone_number"));
-                                    item.setAuthorisedBy(object.getString("authorised_by"));
-                                    item.setDate(object.getString("date_paid"));
-                                    item.setIsArchived(object.getInt("is_archived"));
-                                    //add only items which are not archived
-                                    if (object.getInt("is_archived") == 1) {
-                                        listItems.add(item);
+                                    User user = new User();
+                                    user.setFullName(object.getString("fullname"));
+                                    user.setEmail(object.getString("email"));
+                                    user.setPhoneNumber(object.getString("phone_number"));
+                                    user.setDateJoined(object.getString("date_joined"));
+                                    user.setUserLevel(object.getInt("user_level"));
+                                    user.setUserStatus(object.getInt("status"));
+                                    user.setUserId(object.getInt("id"));
+
+                                    //DO NOT INCLUDE CURRENT LOGGED IN USER
+                                    if (object.getInt("id") != USER_ID) {
+                                        usersList.add(user);
                                     }
+
+
                                 }
-                                adapter = new ArchivesAdapter(listItems, getApplicationContext());
+                                adapter = new UsersAdapter(usersList, getApplicationContext());
                                 adapter.notifyDataSetChanged();
                                 recyclerView.setAdapter(adapter);
 
@@ -132,57 +129,7 @@ public class ArchivesActivity extends AppCompatActivity {
 
                     }
                 }
-        ){
-            @Override
-            protected Response<JSONObject> parseNetworkResponse(NetworkResponse response) {
-                try {
-                    Cache.Entry cacheEntry = HttpHeaderParser.parseCacheHeaders(response);
-                    if (cacheEntry == null) {
-                        cacheEntry = new Cache.Entry();
-                    }
-                    final long cacheHitButRefreshed = 1000; // in 3 minutes cache will be hit, but also refreshed on background
-                    final long cacheExpired = 24 * 60 * 60 * 1000; // in 24 hours this cache entry expires completely
-                    long now = System.currentTimeMillis();
-                    final long softExpire = now + cacheHitButRefreshed;
-                    final long ttl = now + cacheExpired;
-                    cacheEntry.data = response.data;
-                    cacheEntry.softTtl = softExpire;
-                    cacheEntry.ttl = ttl;
-                    String headerValue;
-                    headerValue = response.headers.get("Date");
-                    if (headerValue != null) {
-                        cacheEntry.serverDate = HttpHeaderParser.parseDateAsEpoch(headerValue);
-                    }
-                    headerValue = response.headers.get("Last-Modified");
-                    if (headerValue != null) {
-                        cacheEntry.lastModified = HttpHeaderParser.parseDateAsEpoch(headerValue);
-                    }
-                    cacheEntry.responseHeaders = response.headers;
-                    final String jsonString = new String(response.data,
-                            HttpHeaderParser.parseCharset(response.headers));
-                    return Response.success(new JSONObject(jsonString), cacheEntry);
-                } catch (UnsupportedEncodingException e) {
-                    return Response.error(new ParseError(e));
-                } catch (JSONException e) {
-                    return Response.error(new ParseError(e));
-                }
-            }
-
-            @Override
-            protected void deliverResponse(JSONObject response) {
-                super.deliverResponse(response);
-            }
-
-            @Override
-            public void deliverError(VolleyError error) {
-                super.deliverError(error);
-            }
-
-            @Override
-            protected VolleyError parseNetworkError(VolleyError volleyError) {
-                return super.parseNetworkError(volleyError);
-            }
-        };
+        );
         requestQueue.add(jsonObjectRequest);
         requestQueue.addRequestFinishedListener(new RequestQueue.RequestFinishedListener<Object>() {
             @Override
@@ -197,26 +144,6 @@ public class ArchivesActivity extends AppCompatActivity {
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
         if (networkInfo != null && networkInfo.isConnected()) {
             requestQueue.getCache().invalidate(URL, true);
-        }
-    }
-    @Override
-    protected void onStart() {
-        super.onStart();
-        if(!isLoggedIn()){
-            startActivity(new Intent(this, WelcomeActivity.class));
-        }
-
-    }
-
-
-    public boolean isLoggedIn(){
-        SharedPreferences settings = getSharedPreferences("AUTH_DATA",
-                Context.MODE_PRIVATE);
-        String username = settings.getString("username", "");
-        if(!username.equals("")){
-            return true;
-        }else{
-            return false;
         }
     }
 }

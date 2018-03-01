@@ -61,6 +61,9 @@ public class MainActivity extends AppCompatActivity
     ProgressDialog progressDialog;
     private String URL;
 
+    private int USER_LEVEL;
+    private static final int ADMIN_LEVEL = 1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,6 +81,10 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        SharedPreferences settings = this.getSharedPreferences("AUTH_DATA",
+                Context.MODE_PRIVATE);
+        USER_LEVEL = settings.getInt("user_level", 0);
+
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
@@ -86,6 +93,8 @@ public class MainActivity extends AppCompatActivity
         progressDialog = new ProgressDialog(this);
 
         requestQueue = VolleyRequestSingleton.getInstance(this.getApplicationContext()).getRequestQueue();
+
+
 
 
 
@@ -189,6 +198,7 @@ public class MainActivity extends AppCompatActivity
             drawer.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
+            return;
         }
     }
 
@@ -240,8 +250,17 @@ public class MainActivity extends AppCompatActivity
             startActivity(new Intent(getApplicationContext(), MainActivity.class));
         }
         else if (id == R.id.nav_archives) {
+
            startActivity(new Intent(getApplicationContext(), ArchivesActivity.class));
 
+        }
+        else if (id == R.id.nav_manage_users){
+            if (USER_LEVEL == ADMIN_LEVEL) {
+                startActivity(new Intent(MainActivity.this, ManageUsersActivity.class));
+                finish();
+            }else{
+                Toast.makeText(getApplicationContext(), "You are not authorised to view this page", Toast.LENGTH_LONG).show();
+            }
         }
         else if (id == R.id.nav_logout) {
             logout();
@@ -258,6 +277,7 @@ public class MainActivity extends AppCompatActivity
         super.onStart();
         if(!isLoggedIn()){
             startActivity(new Intent(this, WelcomeActivity.class));
+            finish();
         }
 
     }
@@ -267,7 +287,8 @@ public class MainActivity extends AppCompatActivity
         SharedPreferences settings = getSharedPreferences("AUTH_DATA",
                 Context.MODE_PRIVATE);
         String username = settings.getString("username", "");
-        if(!username.equals("")){
+        int status = settings.getInt("status", 0);
+        if(!username.equals("") && status == 1){
             return true;
         }else{
             return false;
@@ -292,13 +313,14 @@ public class MainActivity extends AppCompatActivity
                 editor.apply();
                 editor.commit();
                 startActivity(new Intent(getApplicationContext(), WelcomeActivity.class));
+                finish();
             }
         });
 
         builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-
+                 dialog.dismiss();
             }
         });
 
