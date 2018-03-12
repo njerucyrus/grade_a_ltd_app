@@ -85,7 +85,7 @@ public class PrintPreviewActivity extends AppCompatActivity implements Runnable 
         BILL = BILL +"\n\t"+ String.format("%1$-10s ", "Descriptions" );
         BILL = BILL + "\n\t" + String.format("%1$-10s",  item.getDescription().substring(13));
         BILL = BILL + "\n\t" +  String.format("%1$-10s",  item.getPrice());
-        BILL = BILL + "\n\tEND OF LEGAL RECEIPT";
+        BILL = BILL + "\n\t========================\n";
 
 
         printPreviewContent = (TextView)findViewById(R.id.previewContent);
@@ -191,6 +191,8 @@ public class PrintPreviewActivity extends AppCompatActivity implements Runnable 
                     Toast.makeText(PrintPreviewActivity.this, "Message", Toast.LENGTH_SHORT).show();
                 }
                 break;
+
+
         }
     }
 
@@ -228,7 +230,7 @@ public class PrintPreviewActivity extends AppCompatActivity implements Runnable 
         }
     }
 
-    private Handler mHandler = new Handler() {
+    private  Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             mBluetoothConnectProgressDialog.dismiss();
@@ -268,20 +270,20 @@ public class PrintPreviewActivity extends AppCompatActivity implements Runnable 
                     //This is printer specific code you can comment ==== > Start
 
 //                     Setting height
-                    int gs = 29;
-                    os.write(intToByteArray(gs));
-                    int h = 104;
-                    os.write(intToByteArray(h));
-                    int n = 162;
-                    os.write(intToByteArray(n));
-
-                    // Setting Width
-                    int gs_width = 29;
-                    os.write(intToByteArray(gs_width));
-                    int w = 119;
-                    os.write(intToByteArray(w));
-                    int n_width = 2;
-                    os.write(intToByteArray(n_width));
+//                    int gs = 29;
+//                    os.write(intToByteArray(gs));
+//                    int h = 104;
+//                    os.write(intToByteArray(h));
+//                    int n = 162;
+//                    os.write(intToByteArray(n));
+//
+//                    // Setting Width
+//                    int gs_width = 29;
+//                    os.write(intToByteArray(gs_width));
+//                    int w = 119;
+//                    os.write(intToByteArray(w));
+//                    int n_width = 2;
+//                    os.write(intToByteArray(n_width));
 
 
 

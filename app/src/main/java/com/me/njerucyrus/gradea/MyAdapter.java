@@ -76,6 +76,8 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         public TextView txtItemDescription;
         public TextView txtOptionDigit;
         public TextView txtDate;
+        public int USER_LEVEL;
+        private final int ADMIN_LEVEL = 1;
 
         ProgressDialog progressDialog;
         RequestQueue requestQueue;
@@ -88,6 +90,10 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
             txtDate = (TextView)itemView.findViewById(R.id.txtDate);
             requestQueue = VolleyRequestSingleton.getInstance(itemView.getContext()).getRequestQueue();
             progressDialog = new ProgressDialog(itemView.getContext());
+
+            SharedPreferences settings = itemView.getContext().getSharedPreferences("AUTH_DATA",
+                    Context.MODE_PRIVATE);
+            USER_LEVEL = settings.getInt("user_level", 0);
 
 
             txtOptionDigit.setOnClickListener(new View.OnClickListener() {
@@ -208,6 +214,90 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 
                                         view.getContext().startActivity(new Intent(mContext, PrintPreviewActivity.class));
                                     }
+                                    break;
+                                case R.id.menu_item_delete:
+                                    if (USER_LEVEL == ADMIN_LEVEL) {
+                                        if (getAdapterPosition() != RecyclerView.NO_POSITION) {
+                                            final RecyclerItem item = listItems.get(getAdapterPosition());
+                                            AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+                                            builder.setTitle("Delete this record?");
+                                            builder.setMessage("This record will be permanently deleted.");
+                                            builder.setCancelable(false);
+                                            builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    progressDialog.setMessage("Submitting");
+                                                    progressDialog.setCanceledOnTouchOutside(false);
+                                                    progressDialog.show();
+                                                    Config config = new Config();
+
+                                                    final String URL = config.getBASE_URL() + "/purchases.php?action=delete&id=" + item.getId();
+                                                    JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.DELETE, URL, null,
+                                                            new Response.Listener<JSONObject>() {
+                                                                @Override
+                                                                public void onResponse(JSONObject response) {
+                                                                    try {
+                                                                        if (response.getInt("status_code") == 201) {
+                                                                            Toast.makeText(mContext, "Record was Deleted!", Toast.LENGTH_LONG).show();
+                                                                            view.getContext().startActivity(new Intent(mContext, MainActivity.class));
+                                                                        } else {
+                                                                            Toast.makeText(mContext, response.getString("message"), Toast.LENGTH_LONG).show();
+                                                                        }
+
+                                                                    } catch (JSONException e) {
+                                                                        e.printStackTrace();
+                                                                    }
+                                                                }
+                                                            },
+                                                            new Response.ErrorListener() {
+                                                                @Override
+                                                                public void onErrorResponse(VolleyError error) {
+
+                                                                    String message = null;
+                                                                    if (error instanceof NetworkError) {
+                                                                        message = "Cannot connect to Internet...Please check your connection!";
+                                                                    } else if (error instanceof ServerError) {
+                                                                        message = "The server could not be found. Please try again after some time!!";
+                                                                    } else if (error instanceof AuthFailureError) {
+                                                                        message = "Cannot connect to Internet...Please check your connection!";
+                                                                    } else if (error instanceof ParseError) {
+                                                                        message = "Parsing error! Please try again after some time!!";
+                                                                    } else if (error instanceof NoConnectionError) {
+                                                                        message = "Cannot connect to Internet...Please check your connection!";
+                                                                    } else if (error instanceof TimeoutError) {
+                                                                        message = "Connection TimeOut! Please check your internet connection.";
+                                                                    }
+                                                                    Toast.makeText(mContext, message, Toast.LENGTH_LONG).show();
+
+
+                                                                }
+                                                            }
+                                                    );
+                                                    requestQueue.add(jsonObjectRequest);
+                                                    requestQueue.addRequestFinishedListener(new RequestQueue.RequestFinishedListener<Object>() {
+                                                        @Override
+                                                        public void onRequestFinished(Request<Object> request) {
+                                                            if (progressDialog.isShowing()) {
+                                                                progressDialog.dismiss();
+                                                            }
+                                                        }
+                                                    });
+                                                }
+                                            });
+
+                                            builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    //do nothing just let dispose the dialog
+                                                }
+                                            });
+
+                                            builder.show();
+                                        }
+                                    }else{
+                                        Toast.makeText(mContext, "You are not authorised to perform this action ", Toast.LENGTH_LONG).show();
+                                    }
+
                                     break;
                                 default:
                                     break;

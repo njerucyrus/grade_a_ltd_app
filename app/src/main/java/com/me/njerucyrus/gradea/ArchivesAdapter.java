@@ -58,8 +58,7 @@ public class ArchivesAdapter extends RecyclerView.Adapter<ArchivesAdapter.ViewHo
                 "\nDate " + itemList.getDate();
         holder.txtTitle.setText(title);
         holder.txtItemDescription.setText(description);
-
-
+        
     }
 
     @Override

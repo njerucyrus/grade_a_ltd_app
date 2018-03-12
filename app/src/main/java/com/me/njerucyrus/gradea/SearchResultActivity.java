@@ -1,27 +1,18 @@
 package com.me.njerucyrus.gradea;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.app.SearchManager;
-import android.content.Context;
 import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
+import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
-import com.android.volley.Cache;
 import com.android.volley.NetworkError;
-import com.android.volley.NetworkResponse;
 import com.android.volley.NoConnectionError;
 import com.android.volley.ParseError;
 import com.android.volley.Request;
@@ -30,14 +21,12 @@ import com.android.volley.Response;
 import com.android.volley.ServerError;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.JsonObjectRequest;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -80,7 +69,7 @@ public class SearchResultActivity extends AppCompatActivity {
         if (Intent.ACTION_SEARCH.equals(getIntent().getAction())) {
             String query = getIntent().getStringExtra(SearchManager.QUERY);
             //use the query to search your data somehow
-            final String URL = getApplicationContext().getResources().getString(R.string.base_url)+"/purchases.php?query=" + query;
+            final String URL = getApplicationContext().getResources().getString(R.string.base_url) + "/purchases.php?query=" + query;
             progressDialog.setMessage("Loading...");
             progressDialog.show();
             JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, URL, null,
@@ -110,8 +99,6 @@ public class SearchResultActivity extends AppCompatActivity {
                                     adapter = new MyAdapter(listItems, getApplicationContext());
                                     adapter.notifyDataSetChanged();
                                     recyclerView.setAdapter(adapter);
-
-
                                 } else {
                                     Toast.makeText(getApplicationContext(), "No data found", Toast.LENGTH_LONG).show();
                                 }
@@ -145,17 +132,16 @@ public class SearchResultActivity extends AppCompatActivity {
                     }
             );
 
-
             requestQueue.add(jsonObjectRequest);
-
-            requestQueue.addRequestFinishedListener(new RequestQueue.RequestFinishedListener<Object>() {
-                @Override
-                public void onRequestFinished(Request<Object> request) {
-                    if (progressDialog.isShowing()) {
-                        progressDialog.dismiss();
-                    }
-                }
-            });
+            requestQueue.addRequestFinishedListener(
+                    new RequestQueue.RequestFinishedListener<Object>() {
+                        @Override
+                        public void onRequestFinished(Request<Object> request) {
+                            if (progressDialog.isShowing()) {
+                                progressDialog.dismiss();
+                            }
+                        }
+                    });
 
         }
     }
