@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.me.njerucyrus.gradea">
+    package="com.hudutech.apps.gradea">
 
     <!-- To auto-complete the email text field in the login form with the user's emails -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
@@ -22,7 +22,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".MainActivity"
+            android:name="com.hudutech.apps.gradea.MainActivity"
             android:label="@string/transactions_name"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
@@ -36,12 +36,12 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".SearchResultActivity"
+            android:name="com.hudutech.apps.gradea.SearchResultActivity"
             android:label="@string/label_search_results"
-            android:parentActivityName=".MainActivity">
+            android:parentActivityName="com.hudutech.apps.gradea.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.me.njerucyrus.gradea.MainActivity" />
+                android:value="com.hudutech.apps.gradea.MainActivity" />
             <meta-data
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable" />
@@ -51,13 +51,13 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".RecordPurchase"
+            android:name="com.hudutech.apps.gradea.RecordPurchase"
             android:label="@string/record_purchase_name">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.me.njerucyrus.gradea.MainActivity" />
+                android:value="com.hudutech.apps.gradea.MainActivity" />
         </activity>
-        <activity android:name=".WelcomeActivity">
+        <activity android:name="com.hudutech.apps.gradea.WelcomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -65,43 +65,43 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".LoginActivity"
+            android:name="com.hudutech.apps.gradea.LoginActivity"
             android:label="@string/login_name">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.me.njerucyrus.gradea.WelcomeActivity" />
+                android:value="com.hudutech.apps.gradea.WelcomeActivity" />
         </activity>
         <activity
-            android:name=".RegisterActivity"
+            android:name="com.hudutech.apps.gradea.RegisterActivity"
             android:label="@string/register_name">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.me.njerucyrus.gradea.WelcomeActivity" />
+                android:value="com.hudutech.apps.gradea.WelcomeActivity" />
         </activity>
         <activity
-            android:name=".ArchivesActivity"
+            android:name="com.hudutech.apps.gradea.ArchivesActivity"
             android:label="@string/archives_name">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.me.njerucyrus.gradea.MainActivity" />
+                android:value="com.hudutech.apps.gradea.MainActivity" />
         </activity>
         <activity
-            android:name=".DeviceListActivity"
+            android:name="com.hudutech.apps.gradea.DeviceListActivity"
             android:theme="@android:style/Theme.DeviceDefault.Dialog">
         </activity>
         <activity
-            android:name=".PrintPreviewActivity"
+            android:name="com.hudutech.apps.gradea.PrintPreviewActivity"
             android:label="@string/print_preview_name">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.me.njerucyrus.gradea.MainActivity" />
+                android:value="com.hudutech.apps.gradea.MainActivity" />
         </activity>
-        <activity android:name=".ManageUsersActivity"
+        <activity android:name="com.hudutech.apps.gradea.ManageUsersActivity"
             android:label="@string/manage_users"
             >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.me.njerucyrus.gradea.MainActivity" />
+                android:value="com.hudutech.apps.gradea.MainActivity" />
         </activity>
     </application>
 

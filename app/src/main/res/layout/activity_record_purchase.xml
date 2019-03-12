@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.me.njerucyrus.gradea.RecordPurchase">
+    tools:context="com.hudutech.apps.gradea.RecordPurchase">
 <ScrollView
     android:layout_width="match_parent"
     android:layout_height="match_parent">

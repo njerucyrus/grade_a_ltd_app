@@ -29,7 +29,7 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
-    <string name="base_url">http://grade.hudutech.com/api_backend/api</string>
+    <string name="base_url">http://gradea.hudutech.com/api_backend/api</string>
     <string name="manage_users">Manage Users</string>
     <string name="print_preview">Print Preview</string>
     <string name="send_to_archive">Send to Archive</string>
